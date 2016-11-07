@@ -414,7 +414,7 @@ images: images
 
 search: 
       path: search.xml
-      field: post
+      field: all
 
 # Theme version
 version: 5.0.2
