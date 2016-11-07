@@ -32,7 +32,6 @@ menu:
   #about: /about
   archives: /archives
   tags: /tags
-  schedule: /schedule
   #commonweal: /404.html
 
 
@@ -412,6 +411,10 @@ vendors:
 css: css
 js: js
 images: images
+
+search: 
+      path: search.xml
+      field: post
 
 # Theme version
 version: 5.0.2
