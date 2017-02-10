@@ -10,7 +10,8 @@ author: Will Zhang
 language: zh-Hans
 timezone:
 duoshuo_shortname: xiechengxu
-
+# 多说分享服务，必须与多说评论同时使用
+duoshuo_share: true
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
 url: 127.0.0.1
