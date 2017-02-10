@@ -14,7 +14,7 @@ duoshuo_shortname: xiechengxu
 duoshuo_share: true
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: 127.0.0.1
+url: xiechengxu.cn
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
