@@ -34,30 +34,64 @@ tags:
               一般情况下，只需要配置id就足够了。
 
 
-### spring测试
+#### spring测试
 
- 告诉junit，使用什么环境来运行junit测试。
-  SpringJUnit4ClassRunner:告诉junit，在运行JUNIT方法之前，首先启动spring容器
-         Spring会自动的把这测试对象也作为spring管理的一个bean
-直接得到Spring启动好的容器了。
+           告诉junit，使用什么环境来运行junit测试。
+            SpringJUnit4ClassRunner:告诉junit，在运行JUNIT方法之前，首先启动spring容器
+                   Spring会自动的把这测试对象也作为spring管理的一个bean
+          直接得到Spring启动好的容器了。
 
-@RunWith(SpringJUnit4ClassRunner.class)
+          @RunWith(SpringJUnit4ClassRunner.class)
 
- @ContextConfiguration:用于告诉spring到哪里去加载配置文件(默认的路径是相对路径)
-  假如什么配置文件都不写，spring会去当前包找 测试类名称（AliasTest）-context.xml这个文件
-  spring测试的核心：测试类应该由spring管理，而不是测试类来管理spring容器。
+           @ContextConfiguration:用于告诉spring到哪里去加载配置文件(默认的路径是相对路径)
+            假如什么配置文件都不写，spring会去当前包找 测试类名称（AliasTest）-context.xml这个文件
+            spring测试的核心：测试类应该由spring管理，而不是测试类来管理spring容器。
 
-@ContextConfiguration
+          @ContextConfiguration
 
-public class AliasTest {
+          public class AliasTest {
 
-  告诉spring容器，把spring容器给我一个引用
-   通过factory就相当于可以访问到spring容器了。
+            告诉spring容器，把spring容器给我一个引用
+             通过factory就相当于可以访问到spring容器了。
 
 
- @Autowired
- private BeanFactory factory;
+           @Autowired
+           private BeanFactory factory;
 
+           ####测试总是启动 ApplicationContext
+
+#### ApplicationContext
+
+          BeanFactory:是spring里面最最低层的接口，提供了最简单的容器的功能。只提供了实例化对象和拿对象的功能；BeanFactory ApplicationContext
+          ApplicationContext：应用上下文，它是spring的一种更高级的容器；提供了更多的有用的功能；
+          1，ApplicationContext继承了BeanFactory接口，所以，ApplicationContext也能像beanfactory从容器中得到bean；
+          2，ApplicationContext提供的额外的功能：
+             1，国际化的功能；
+             2，消息发送/响应机制；
+             3，统一加载资源的功能；
+             4，AOP的功能；
+          3，ApplicationContext的使用：
+
+               手动初始化ApplicationContext
+
+         @Test
+         public void test() {
+          // ClassPathXmlApplicationContext:代表，从classpath开始加载使用xml的配置文件
+          ApplicationContext ctx = new ClassPathXmlApplicationContext(
+            "spring/day1/container/ContainerTest-context.xml");
+
+#### spring 实例化bean的时机
+
+        BeanFactory在启动的时候不会去实例化bean；只有在从容器中拿bean的时候才会实例化；
+        ApplicationContext在启动的时候就把所有的bean全部实例化了。
+        在ApplicationContext中，可以为bean配置lazy-init=true来让bean延迟实例化；
+
+        哪种好？
+        延迟实例化的优点：应用启动的时候占用资源很少；对资源要求较高的应用，比较有优势；
+        非延迟实例化的优点：
+            1，所有的bean在启动的时候都加载，系统运行的速度快；
+            2，在启动的时候所有的bean都加载了，我就能在系统启动的时候，尽早的发现系统中的配置问题
+            3，建议web应用，在启动的时候就把所有的bean都加载了。(把费时的操作放到系统启动中完成)
 
 
 ### DI- Dependency Injection, 即"依赖注入"
