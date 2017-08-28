@@ -93,6 +93,54 @@ tags:
             2，在启动的时候所有的bean都加载了，我就能在系统启动的时候，尽早的发现系统中的配置问题
             3，建议web应用，在启动的时候就把所有的bean都加载了。(把费时的操作放到系统启动中完成)
 
+#### spring 中 实例化bean的四种方式：
+
+          1，使用bean的构造方法实例化bean；
+
+            如果直接在配置文件中配置bean的id和class,那么要求这个bean必须有默认的无参的构造函数。
+          2，静态工厂方法：
+
+            <bean id="somebean" class="spring.day1.create.SomeBeanFactory"
+              factory-method="getBean" />
+            注意：在class里面配置的是工厂的类型，但是在得bean的时候，用的是bean的类型；
+            静态工厂方法的实例化过程：
+            1，读入配置文件；
+            2，解析每一个bean元素；
+            3，解析到id和class属性；
+               如果bean元素上面有factory-method属性，得到方法名称
+            4，使用反射得到对象（Class.forName("SomeBeanFactory").getMethod("getBean").invoke(null,null)）->SomeBean
+            5，把得到的对象实例和id放到容器中；
+
+          3,实例工厂方法：
+
+          <!-- 实例工厂方法
+            factory-method：工厂方法
+            factory-bean：
+           -->
+           <bean id="factory" class="spring.day1.create.SomeBeanFactory" />
+           <bean id="somebean" class="spring.day1.create.SomeBean" factory-bean="factory" factory-method="getBean" />    
+
+
+           4，FactoryBean：代表工厂类接口，在spring中，只要一个类实现了FactoryBean接口，那么这个类自动的被spring识别为一个工厂类。
+
+                1,如果一个bean要作为一个工厂类存在，那么只需要实现FactoryBean接口；
+                2，在spring配置文件中，只需要配置这个工厂类型，但得到的是工厂生产的bean；
+
+                3，spring处理factorybean的流程：
+
+                 1，读入配置文件；
+                 2，解析每一个bean元素；
+                 3，解析到id和class属性；
+                 4，使用反射得到对象
+                    得到的是工厂的实例，如果这个实例是实现了FactoryBean接口，spring把该bean转型成FactoryBean；
+                    1，通过FactroyBean上面的getObject()得到真正的实例对象；
+                    2，通过getObjectType（）得到对象的类型；
+                 5，把得到的对象实例和id放到容器中；
+                    4,isSingleton:为true的话，得到的对象只有一个实例，如果为false的话，拿一次对象，调用一个getObject()方法；
+
+           在spring里面提供了一些特殊作用的接口，bean实现了这些接口，bean就具有这个接口所提供的功能。
+
+
 
 ### DI- Dependency Injection, 即"依赖注入"
 - Ioc 容器注入某个对象所需要的外部资源
