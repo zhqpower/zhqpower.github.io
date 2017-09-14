@@ -10,10 +10,17 @@ tags:
   master 用于发布博客。 发布之前先rebase hexo 分支上的内容。
 
 
-  1. git add .
+  1. 在工作分支(hexo)
+     git add .
      git commit -m "will commit"
      git push origin hexo
 
-  2. git rebase hexo
+  2. 在master分支
+     git rebase hexo
      hexo g
      hexo deploy
+
+
+  如果更换了电脑，git clone -b hexo  git@github.com:zhqpower/zhqpower.github.io.git
+
+  把hexo 分支clone 下来，然后npm install 就可以了  
