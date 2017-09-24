@@ -24,3 +24,9 @@ tags:
   如果更换了电脑，git clone -b hexo  git@github.com:zhqpower/zhqpower.github.io.git
 
   把hexo 分支clone 下来，然后npm install 就可以了  
+
+
+
+  ##### 常见操作
+  创建文章: hexo new "我的第一篇文章"
+    
