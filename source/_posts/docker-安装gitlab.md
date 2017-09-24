@@ -28,7 +28,6 @@ http://docs.gitlab.com/omnibus/docker/#run-the-image
    GITLAB_OMNIBUS_CONFIG: |
      external_url 'http://example.com'
      gitlab_rails['gitlab_shell_ssh_port'] = 2222
-  # Add any other gitlab.rb configuration here, each on its own line
   ports:
    - '2222:22'
    - '8080:80'
