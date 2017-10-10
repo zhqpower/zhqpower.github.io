@@ -7,10 +7,10 @@ menu:
   url: /
   icon: fa-home
 - page: 前端
-  url: /categories/view/
+  url: /categories/前端/
   icon:
 - page: 后端
-  url: /categories/back/
+  url: /categories/后端/
   icon:
 - page: 工具
   url: /categories/tools/
