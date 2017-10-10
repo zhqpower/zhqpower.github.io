@@ -1,7 +1,8 @@
 
 title: spring学习笔记
 date: 2017-02-03 19:25:42
-tags:
+tags: spring
+categories: view
 ---
 
 # spring学习笔记

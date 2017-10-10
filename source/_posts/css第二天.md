@@ -2,7 +2,7 @@
 title: css第二期
 date: 2017-02-19 12:53:26
 tags: 前端 css
-categories: 前端
+categories: view
 ---
 ### 一、 三种样式的使用范围
 
