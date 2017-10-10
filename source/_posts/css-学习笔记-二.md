@@ -6,7 +6,7 @@ categories: 前端
 ---
 #####  页面元素分类：
 
-    block, inline, inline-block, and none（隐藏元素）
+    block, inline, inline-block,  none（隐藏元素）
 
  块级元素: 宽度 100% 高度由内容决定
 
@@ -20,3 +20,5 @@ categories: 前端
   1. 页面中每个元素都是一个盒子
 
   2. width, height, padding, border,  margin
+
+    magin 在行内元素中，垂直方向不起作用。
