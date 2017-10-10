@@ -2,7 +2,7 @@
 title: spring学习笔记
 date: 2017-02-03 19:25:42
 tags: spring
-categories: view
+categories: back
 ---
 
 # spring学习笔记

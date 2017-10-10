@@ -1,7 +1,7 @@
 ---
 title: docker 安装gitlab
 date: 2017-09-23 22:32:38
-tags:
+tags: docker
 ---
 
 ##### docker 安装

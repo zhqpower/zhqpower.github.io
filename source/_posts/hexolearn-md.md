@@ -1,6 +1,6 @@
 title: 搭建博客学习笔记
 date: 2017-02-09 16:25:42
-tags: back
+tags: hexo
 ---
 
 分为两个分支，hexo 和master 分支，
