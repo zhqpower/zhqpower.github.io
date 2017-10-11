@@ -22,3 +22,11 @@ categories: 前端
   2. width, height, padding, border,  margin
 
     magin 在行内元素中，垂直方向不起作用。
+
+  3.  box-sizing
+
+      box-sizing: content-box;
+      
+      box-sizing: padding-box;
+
+      box-sizing: border-box;
