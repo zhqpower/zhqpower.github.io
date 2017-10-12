@@ -20,4 +20,6 @@ categories: 前端
 
 5. 判断array 可以使用Array.isArray(arr)
 
-6. 
+6. 数字转化为String
+    123..toString(); // '123', 注意是两个点！
+   (123).toString();
