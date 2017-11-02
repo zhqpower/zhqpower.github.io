@@ -38,3 +38,15 @@ docker commit 52b7f23a2e57 vim ==>生成一个名称为vim 的镜像
 手动构建，繁琐，构建步骤容易遗忘。软件升级不方便。
 
 2. 通过dockerfile 文件构建镜像
+
+      docker build -t + 生成的镜像名称:版本号 + dockerfile 文件路径
+
+      docker build -t willvim:1.0 .
+
+   docker bulid 有个上下文的概念，就是值当前文件夹。 build 时会把当前文件夹的所有文件发送给docker
+   所以尽量将需要build 的文件放在一个文件夹下，也可以通过.dockerignore 文件配置忽略。
+
+##### Dockerfile 文件编写
+
+1. 所有的Dockerfile 都必须以from 作为第一条指令
+2. Dockerfile 中指令建议大写
