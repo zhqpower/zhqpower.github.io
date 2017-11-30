@@ -57,5 +57,6 @@ docker commit 52b7f23a2e57 vim ==>生成一个名称为vim 的镜像
          ENV PKG_NAME vim
          RUN apt-get install -y $PKG_NAME
 5. RUN 指令
-     第一种写法： RUN + 要执行的命令
-     第二种写法： RUN ["apt-get","update"], 这种写法，不会处理环境变量
+     第一种写法： RUN + 要执行的命令 相当于   RUN ["bin/sh","-c"，要执行的命令]
+     第二种写法： RUN ["apt-get","update"], 这种写法，不会处理环境变量,可以使用下面形式
+                RUN ["bin/sh","-c","apt-get install -y $PKG_NAME"]
