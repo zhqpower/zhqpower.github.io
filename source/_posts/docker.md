@@ -27,12 +27,15 @@ docker images  | grep nginx 过滤镜像
 docker inspect + 容器名称或者容器id
 
 ### 启动一个容器
+```bash
+
 sudo docker run -p 80:80 -p 443:443 -d \
 --name will_nginx  \
 -v /Users/zhangqiang/nginx/www/html:/usr/share/nginx/html/ \
 -v /Users/zhangqiang/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro \
 nginx:1.10
 
+```
 
 ##### docker 镜像的构建
 
