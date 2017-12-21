@@ -66,19 +66,21 @@ nginx:1.10
 2. Dockerfile 中指令建议大写
 3. MAINTAINER 后面加作者名称，邮箱等信息。
 
-   ```bash
+  ```bash
+
       docker inspect + 镜像名称： 查看镜像详情
       docker inspect -f '{{.Author}}' 过滤某个字段
 
-    ```  
+  ```  
+
 
 4. ENV + 变量名 + 变量值
 
-   ``` bash
+ ```bash
 
            ENV PKG_NAME vim
            RUN apt-get install -y $PKG_NAME
-    ```
+ ```
 
 5. RUN 指令
 
