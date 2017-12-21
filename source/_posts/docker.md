@@ -73,7 +73,7 @@ docker commit 52b7f23a2e57 vim ==>生成一个名称为vim 的镜像
 
       多个RUN指令可以使用 && 符号连接，这样不会产生新层。
 
-      添加 RUN  set-xe \   可以输入额外的日志
+      添加 RUN  set-xe    可以输入额外的日志
 
 6. CMD 指令
 
