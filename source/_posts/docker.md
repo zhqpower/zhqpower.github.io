@@ -66,24 +66,23 @@ nginx:1.10
 2. Dockerfile 中指令建议大写
 3. MAINTAINER 后面加作者名称，邮箱等信息。
 
- ```bash
-    docker inspect + 镜像名称： 查看镜像详情
-    docker inspect -f '{{.Author}}' 过滤某个字段
+   ```bash
+      docker inspect + 镜像名称： 查看镜像详情
+      docker inspect -f '{{.Author}}' 过滤某个字段
 
-  ```  
+    ```  
 
 4. ENV + 变量名 + 变量值
 
-     ```bash
+   ``` bash
 
-         ENV PKG_NAME vim
-         RUN apt-get install -y $PKG_NAME
-
-      ```
+           ENV PKG_NAME vim
+           RUN apt-get install -y $PKG_NAME
+    ```
 
 5. RUN 指令
 
-   ```bash
+  ```bash
      第一种写法： RUN + 要执行的命令 相当于   RUN ["bin/sh","-c"，要执行的命令]
      第二种写法： RUN ["apt-get","update"], 这种写法，不会处理环境变量,可以使用下面形式
                 RUN ["bin/sh","-c","apt-get install -y $PKG_NAME"]
