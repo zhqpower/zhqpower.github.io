@@ -64,23 +64,23 @@ nginx:1.10
 
 1. 所有的Dockerfile 都必须以from 作为第一条指令
 2. Dockerfile 中指令建议大写
+
 3. MAINTAINER 后面加作者名称，邮箱等信息。
 
+    ```bash
+
+        docker inspect + 镜像名称： 查看镜像详情
+        docker inspect -f '{{.Author}}' 过滤某个字段
+
+    ```
+
+4.  ENV + 变量名 + 变量值
+
   ```bash
+  ENV PKG_NAME vim
+  RUN apt-get install -y $PKG_NAME
 
-      docker inspect + 镜像名称： 查看镜像详情
-      docker inspect -f '{{.Author}}' 过滤某个字段
-
-  ```  
-
-
-4. ENV + 变量名 + 变量值
-
- ```bash
-
-           ENV PKG_NAME vim
-           RUN apt-get install -y $PKG_NAME
- ```
+  ```
 
 5. RUN 指令
 
@@ -93,7 +93,6 @@ nginx:1.10
 
       添加 RUN  set-xe    可以输入额外的日志
  ```
-
 
 6. CMD 指令
       提供一个默认运行的命令
