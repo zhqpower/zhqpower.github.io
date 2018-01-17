@@ -26,6 +26,13 @@ docker images  | grep nginx 过滤镜像
 
 docker inspect + 容器名称或者容器id
 
+### 启动一个容器
+sudo docker run -p 80:80 -p 443:443 -d \
+--name will_nginx  \
+-v /Users/zhangqiang/nginx/www/html:/usr/share/nginx/html/ \
+-v /Users/zhangqiang/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro \
+nginx:1.10
+
 
 ##### docker 镜像的构建
 
@@ -60,3 +67,11 @@ docker commit 52b7f23a2e57 vim ==>生成一个名称为vim 的镜像
      第一种写法： RUN + 要执行的命令 相当于   RUN ["bin/sh","-c"，要执行的命令]
      第二种写法： RUN ["apt-get","update"], 这种写法，不会处理环境变量,可以使用下面形式
                 RUN ["bin/sh","-c","apt-get install -y $PKG_NAME"]
+
+      多个RUN指令可以使用 && 符号连接，这样不会产生新层。
+
+      添加 RUN  set-xe \   可以输入额外的日志
+
+6. CMD 指令
+
+      提供一个默认运行的命令
