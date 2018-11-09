@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>docker | 一起写程序</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="每天写程序" />
+  
+  <meta name="description" content="ps -ef  查看容器中的进程 saaspaaslaascaas soa12-Factor App基于容器技术向现代化转型混合云，可移植性Cloud Native 镜像是只读的，构建完成后不能修改。 容器是可写的。 过滤镜像 12docker images  | grep nginxdocker inspect + 容器名称或者容器id 启动一个容器12345sudo docker run -p">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker">
+<meta property="og:url" content="/2017/10/20/docker/index.html">
+<meta property="og:site_name" content="一起写程序">
+<meta property="og:description" content="ps -ef  查看容器中的进程 saaspaaslaascaas soa12-Factor App基于容器技术向现代化转型混合云，可移植性Cloud Native 镜像是只读的，构建完成后不能修改。 容器是可写的。 过滤镜像 12docker images  | grep nginxdocker inspect + 容器名称或者容器id 启动一个容器12345sudo docker run -p">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-03T08:40:01.449Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="docker">
+<meta name="twitter:description" content="ps -ef  查看容器中的进程 saaspaaslaascaas soa12-Factor App基于容器技术向现代化转型混合云，可移植性Cloud Native 镜像是只读的，构建完成后不能修改。 容器是可写的。 过滤镜像 12docker images  | grep nginxdocker inspect + 容器名称或者容器id 启动一个容器12345sudo docker run -p">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">每天写程序</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        每天写程序
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        技术还是要死磕！
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="每天写程序" target="_blank" href="//xiechengxu.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zhqpower">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/xiechengxu365">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-docker" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      docker
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2017-10-20
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <p>ps -ef  查看容器中的进程</p>
+<p>saas<br>paas<br>laas<br>caas</p>
+<p>soa<br>12-Factor App<br>基于容器技术向现代化转型<br>混合云，可移植性<br>Cloud Native</p>
+<p>镜像是只读的，构建完成后不能修改。</p>
+<p>容器是可写的。</p>
+<p>过滤镜像</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">docker images  | grep nginx</div><div class="line">docker inspect + 容器名称或者容器id</div></pre></td></tr></table></figure>
+<h3 id="启动一个容器"><a href="#启动一个容器" class="headerlink" title="启动一个容器"></a>启动一个容器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo docker run -p 80:80 -p 443:443 -d \</div><div class="line">--name will_nginx  \</div><div class="line">-v /Users/zhangqiang/nginx/www/html:/usr/share/nginx/html/ \</div><div class="line">-v /Users/zhangqiang/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro</div><div class="line">nginx:1.10</div></pre></td></tr></table></figure>
+<h5 id="docker-镜像的构建"><a href="#docker-镜像的构建" class="headerlink" title="docker 镜像的构建"></a>docker 镜像的构建</h5><ol>
+<li><p>启动一个容器，以交互的模式进入容器。在里面进行一些 安装软件等操作，最后通过docker commit 来生成一个新的镜像。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">docker commit + 容器id +新生成的镜像名称</div><div class="line">docker commit 52b7f23a2e57 vim ==&gt;生成一个名称为vim 的镜像</div></pre></td></tr></table></figure>
+<p>手动构建，繁琐，构建步骤容易遗忘。软件升级不方便。</p>
+</li>
+<li><p>通过dockerfile 文件构建镜像</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">docker build -t + 生成的镜像名称:版本号 + dockerfile 文件路径</div><div class="line"></div><div class="line">docker build -t willvim:1.0 .</div></pre></td></tr></table></figure>
+<p>docker bulid 有个上下文的概念，就是值当前文件夹。 build 时会把当前文件夹的所有文件发送给docker<br>所以尽量将需要build 的文件放在一个文件夹下，也可以通过.dockerignore 文件配置忽略。</p>
+</li>
+</ol>
+<h5 id="Dockerfile-文件编写"><a href="#Dockerfile-文件编写" class="headerlink" title="Dockerfile 文件编写"></a>Dockerfile 文件编写</h5><ol>
+<li><p>所有的Dockerfile 都必须以from 作为第一条指令</p>
+</li>
+<li><p>Dockerfile 中指令建议大写</p>
+</li>
+<li><p>MAINTAINER 后面加作者名称，邮箱等信息。</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">docker inspect + 镜像名称： 查看镜像详情</div><div class="line">docker inspect -f <span class="string">'&#123;&#123;.Author&#125;&#125;'</span> 过滤某个字段</div></pre></td></tr></table></figure>
+</li>
+<li><p>ENV + 变量名 + 变量值</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ENV PKG_NAME vim</div><div class="line">RUN apt-get install -y <span class="variable">$PKG_NAME</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>RUN 指令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">第一种写法： RUN + 要执行的命令 相当于   RUN [<span class="string">"bin/sh"</span>,<span class="string">"-c"</span>，要执行的命令]</div><div class="line">第二种写法： RUN [<span class="string">"apt-get"</span>,<span class="string">"update"</span>], 这种写法，不会处理环境变量,可以使用下面形式</div><div class="line">           RUN [<span class="string">"bin/sh"</span>,<span class="string">"-c"</span>,<span class="string">"apt-get install -y <span class="variable">$PKG_NAME</span>"</span>]</div><div class="line"></div><div class="line"> 多个RUN指令可以使用 &amp;&amp; 符号连接，这样不会产生新层。</div><div class="line"></div><div class="line"> 添加 RUN  <span class="built_in">set</span>-xe    可以输入额外的日志</div></pre></td></tr></table></figure>
+</li>
+<li><p>CMD 指令<br>   提供一个默认运行的命令</p>
+</li>
+</ol>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年05月03日 16:40</p>
+        <p>原始链接： <a class="post-url" href="/2017/10/20/docker/" title="docker">/2017/10/20/docker/</a></p>
+        <footer>
+            <a href="">
+                <img src="/images/logo.png" alt="Will Zhang">
+                Will Zhang
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我洗脚~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=/2017/10/20/docker/&title=《docker》 — 一起写程序&pic=images/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=/2017/10/20/docker/&title=《docker》 — 一起写程序&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=/2017/10/20/docker/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《docker》 — 一起写程序&url=/2017/10/20/docker/&via=" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=/2017/10/20/docker/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=/2017/10/20/docker/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#启动一个容器"><span class="post-toc-text">启动一个容器</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#docker-镜像的构建"><span class="post-toc-text">docker 镜像的构建</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#Dockerfile-文件编写"><span class="post-toc-text">Dockerfile 文件编写</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/01/17/python笔记01/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          python笔记01
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2017/10/12/javascript-正则表达式/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">javascript 正则表达式</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 Will Zhang<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/前端/">前端</a><a class="category-link" href="/categories/后端/">后端</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/资源/">资源</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/css/" style="font-size: 20px;">css</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/spring/" style="font-size: 20px;">spring</a> <a href="/tags/后端/" style="font-size: 20px;">后端</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/资源/" style="font-size: 10px;">资源</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/css/" style="font-size: 20px;">css</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/spring/" style="font-size: 20px;">spring</a> <a href="/tags/后端/" style="font-size: 20px;">后端</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/资源/" style="font-size: 10px;">资源</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

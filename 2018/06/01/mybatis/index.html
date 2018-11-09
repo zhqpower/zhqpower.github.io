@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>一起写程序</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="每天写程序" />
+  
+  <meta name="description" content="mybatis mybatis 介绍    是开源的持久型框架，    jdbc 的问题 1&amp;gt; 数据库连接频繁的被创建，释放， 浪费系统资源。 如果使用数据库连接池就会解决这个问题， 2&amp;gt; SQL 语句写在Java 代码中，存在硬编码问题 3&amp;gt; 使用preparedStatement 向占位符传参数存在硬编码。 4&amp;gt; 对结果解析存在硬编码    mybatis 架构  1&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一起写程序">
+<meta property="og:url" content="/2018/06/01/mybatis/index.html">
+<meta property="og:site_name" content="一起写程序">
+<meta property="og:description" content="mybatis mybatis 介绍    是开源的持久型框架，    jdbc 的问题 1&amp;gt; 数据库连接频繁的被创建，释放， 浪费系统资源。 如果使用数据库连接池就会解决这个问题， 2&amp;gt; SQL 语句写在Java 代码中，存在硬编码问题 3&amp;gt; 使用preparedStatement 向占位符传参数存在硬编码。 4&amp;gt; 对结果解析存在硬编码    mybatis 架构  1&amp;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-10-31T07:55:13.332Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一起写程序">
+<meta name="twitter:description" content="mybatis mybatis 介绍    是开源的持久型框架，    jdbc 的问题 1&amp;gt; 数据库连接频繁的被创建，释放， 浪费系统资源。 如果使用数据库连接池就会解决这个问题， 2&amp;gt; SQL 语句写在Java 代码中，存在硬编码问题 3&amp;gt; 使用preparedStatement 向占位符传参数存在硬编码。 4&amp;gt; 对结果解析存在硬编码    mybatis 架构  1&amp;">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">每天写程序</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        每天写程序
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        技术还是要死磕！
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="每天写程序" target="_blank" href="//xiechengxu.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zhqpower">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/xiechengxu365">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-mybatis" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h4 id="mybatis"><a href="#mybatis" class="headerlink" title="mybatis"></a>mybatis</h4><ol>
+<li><p>mybatis 介绍</p>
+<p>   是开源的持久型框架，</p>
+</li>
+</ol>
+<ol>
+<li><p>jdbc 的问题</p>
+<p>1&gt; 数据库连接频繁的被创建，释放， 浪费系统资源。 如果使用数据库连接池就会解决这个问题，</p>
+<p>2&gt; SQL 语句写在Java 代码中，存在硬编码问题</p>
+<p>3&gt; 使用preparedStatement 向占位符传参数存在硬编码。</p>
+<p>4&gt; 对结果解析存在硬编码</p>
+</li>
+</ol>
+<ol>
+<li>mybatis 架构</li>
+</ol>
+<pre><code>1&gt; mysql 配置文件 （SqlMapConfig.xml+ 若干个和实体类(表)对应的mapper.xml）
+
+2&gt;  SqlSessionFactory (工厂中的原材料就是1 提供的)
+
+3&gt;  工厂会产生一个SqlSession，其实SqlSession 就已经可以操作数据库了
+
+4&gt; Executor 当Sqlsession 调用对数据库的增删改查时，实际上是通过Executor 来执行的. Executor 在Sqlsession 里面
+
+5&gt; MappedStatement 
+  sql 语句被存放在一个pojo 对象里，这里MapperStatement 对象就是作为存放 sql 的pojo 来存在的。 MappedStatement 在Executor里面 
+
+6&gt; 在MappedStatement 这个环节，有输入和输出
+
+  输入: Map 类型 ，String Integer 等基础数据类型，pojo
+
+  输出:  Map 类型 ，String Integer 等基础数据类型，pojo, List
+
+    在MappedStatement向数据库发送请求后，会将查询结果自动映射成输出支持的类型。
+</code></pre><ol>
+<li><p>mybatis 实战初级版</p>
+<ol>
+<li><p>主配置文件 SqlMapConfig.xml  (主要用于配置别名和mapper文件信息)</p>
+<p>1&gt; 在configuration标签下使用typeAliases 变迁可以配置别名或者指定包路径</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&lt;!-- 别名 包以其子包下所有类   头字母大小都行--&gt;</div><div class="line">  &lt;typeAliases&gt;</div><div class="line">        &lt;!-- 		&lt;typeAlias type=<span class="string">"cn.xiechengxu.pojo.User"</span> alias=<span class="string">"User"</span>/&gt; --&gt;</div><div class="line">        &lt;<span class="keyword">package</span> name=<span class="string">"cn.xiechengxu.pojo"</span>/&gt;</div><div class="line">  &lt;/typeAliases&gt;</div></pre></td></tr></table></figure>
+<p>2&gt; 在configuration标签下使用environments 配置数据库连接相关的信息。这个和spring整合后就可以废弃掉</p>
+</li>
+</ol>
+</li>
+</ol>
+<pre><code>3&gt; 在configuration标签下使用 mappers 配置和实体类（数据表）对应的mapper.xml 文件
+
+
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&lt;mappers&gt;</div><div class="line">&lt;mapper resource=<span class="string">"sqlmap/User.xml"</span>/&gt;</div><div class="line">&lt;/mappers&gt;</div></pre></td></tr></table></figure>
+</code></pre><ol>
+<li><p>在mapper.xml 文件中写sql语句</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;mapper namespace=<span class="string">"test"</span>&gt;</div><div class="line">  </div><div class="line">  &lt;select id=<span class="string">"findUserById"</span>  parameterType=<span class="string">"Integer"</span> resultType=<span class="string">"cn.xiechengxu.pojo.User"</span>&gt;</div><div class="line">    select * from user where id = #&#123;v&#125;</div><div class="line">  &lt;/select&gt;</div><div class="line">  </div><div class="line">&lt;/mapper&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>在测试类中 构建 SqlSession 来执行sql 语句</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">String resource=<span class="string">"SqlMapConfig.xml"</span>;</div><div class="line">    InputStream in=Resources.getResourceAsStream(resource);</div><div class="line"></div><div class="line">    SqlSessionFactory sqlSessionFactory=<span class="keyword">new</span> SqlSessionFactoryBuilder().build(in);</div><div class="line"></div><div class="line">    <span class="comment">//创建SqlSession</span></div><div class="line">      SqlSession sqlSession=sqlSessionFactory.openSession();</div><div class="line">      <span class="comment">//执行sql</span></div><div class="line">      User user=sqlSession.selectOne(<span class="string">"test.findUserById"</span>,<span class="number">10</span>);</div><div class="line">      System.out.println(user);</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h5 id="mapper-文件中在写sql时，-v-和-value-的区别"><a href="#mapper-文件中在写sql时，-v-和-value-的区别" class="headerlink" title="mapper 文件中在写sql时，#{v} 和${value}的区别"></a>mapper 文件中在写sql时，#{v} 和${value}的区别</h5><ol>
+<li><p>前者可以防止sql注入，后者不行</p>
+</li>
+<li><p>前者是占位符，select * from user where id=? 占位符 ? == ‘五’ </p>
+<p>#{} 表示字符串拼接 select * from user where username like ‘%五%  </p>
+<p>和占位符相比，少了单引号</p>
+</li>
+</ol>
+<p>   应为不能防止sql 注入，所有可以将其改写为#{} 这个占位符的形式</p>
+<pre><code>select * from user where username like &quot;%&quot;#{value}&quot;%&quot;
+</code></pre><p>  ${} 这种写法，sql注入，可以通过传入 参数  “五%’ or ‘1%’ =’1”  这样会生成这样的sql </p>
+<pre><code>select * from user where username like &apos;%五%&apos; or &apos;1%&apos; =&apos;1%&apos;    
+</code></pre><ol>
+<li><p>获取插入数据主键ID (使用selectKey 这个标签)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">    &lt;insert id=<span class="string">"insertUser"</span> parameterType=<span class="string">"cn.xiechengxu.pojo.User"</span>&gt;</div><div class="line"></div><div class="line">     &lt;selectKey keyProperty=<span class="string">"id"</span> resultType=<span class="string">"Integer"</span> order=<span class="string">"AFTER"</span>&gt;</div><div class="line">   <span class="function">select  <span class="title">LAST_INSERT_ID</span><span class="params">()</span></span></div><div class="line"><span class="function">    &lt;/selectKey&gt;</span></div><div class="line"><span class="function"></span></div><div class="line"><span class="function">insert into <span class="title">user</span> <span class="params">(username,birthday,address,sex )</span> <span class="title">values</span> <span class="params">(#&#123;username&#125;,#&#123;birthday&#125;,#&#123;address&#125;,#&#123;sex&#125;)</span></span></div><div class="line"><span class="function"></span></div><div class="line"><span class="function">   &lt;/insert&gt;</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>SqlMapConf.xml 中配置别名，可以使用包的形式。 配置map.xml 的位置，也可以使用包。 但是接口类和map.xml 必须在同一个包下，而且名称要相同。 map.xml–map.java    这样可以利用mybatis 提供的mapper 动态代理机制，自动生成一个接口的实现类。<br>要使用mapper动态代理机制，map.xml 文件中命名空间的配置必须执行map接口类的全路径</p>
+</li>
+</ol>
+<h5 id="resultType-和-resultMap"><a href="#resultType-和-resultMap" class="headerlink" title="resultType 和 resultMap"></a>resultType 和 resultMap</h5><p>   返回值类型，可以使用resultType 自动映射 ，也可以使用resultMap手动映射。</p>
+<p>   当pojo 里面的属性名和数据表中的字段名不一致时，使用resultMap作手动映射</p>
+<pre><code>result 中的标签： id表示 id属性
+              result 表示其他字段属性
+</code></pre><h5 id="动态sql-（四大标签）"><a href="#动态sql-（四大标签）" class="headerlink" title="动态sql （四大标签）"></a>动态sql （四大标签）</h5><ol>
+<li><p>if 标签</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"> </div><div class="line">  <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"sex != null and sex !='' "</span>&gt;</span></div><div class="line">	 sex=#&#123;sex&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">if</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>where 标签</p>
+<p>使用<where> 标签包裹调教部分，可以去掉前and。 免得每次都要写1==1</where></p>
+</li>
+<li><p>sql 片段 </p>
+<p> 提取公共的sql 片段</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">  </div><div class="line">   <span class="tag">&lt;<span class="name">sql</span> <span class="attr">id</span>=<span class="string">"selector"</span>&gt;</span></div><div class="line">select * from user</div><div class="line">  <span class="tag">&lt;/<span class="name">sql</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>使用时，用include</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findUserBySexAndName"</span> <span class="attr">parameterType</span>=<span class="string">"User"</span> <span class="attr">resultType</span>=<span class="string">"User"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">include</span> <span class="attr">refid</span>=<span class="string">"selector"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">where</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"sex != null and sex !='' "</span>&gt;</span></div><div class="line">	 sex=#&#123;sex&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">if</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"username != null and username !='' "</span>&gt;</span></div><div class="line">	and  username=#&#123;username&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">if</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">where</span>&gt;</span></div><div class="line"></div><div class="line"> <span class="tag">&lt;/<span class="name">select</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li>foreach 标签</li>
+</ol>
+<p> 如果传入的是vo类，那么collection 是vo类中集合的名称</p>
+<p> 如果传入的是List， 那么collection 是 list</p>
+<p> 如果传入的是数组， 那么collection 是array</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"selectUserByids"</span>  <span class="attr">parameterType</span>=<span class="string">"QueryVo"</span> <span class="attr">resultType</span>=<span class="string">"User"</span>&gt;</span></div><div class="line"></div><div class="line">	 <span class="tag">&lt;<span class="name">include</span> <span class="attr">refid</span>=<span class="string">"selector"</span>/&gt;</span></div><div class="line">	</div><div class="line">	<span class="tag">&lt;<span class="name">where</span>&gt;</span></div><div class="line"></div><div class="line">		</div><div class="line">		<span class="tag">&lt;<span class="name">foreach</span> <span class="attr">collection</span>=<span class="string">"array"</span>  <span class="attr">item</span>=<span class="string">"id"</span> <span class="attr">separator</span>=<span class="string">","</span> <span class="attr">open</span>=<span class="string">"id in ("</span> <span class="attr">close</span>=<span class="string">")"</span>&gt;</span></div><div class="line"></div><div class="line">			#&#123;id&#125;</div><div class="line"></div><div class="line">		<span class="tag">&lt;/<span class="name">foreach</span>&gt;</span></div><div class="line">		</div><div class="line">	<span class="tag">&lt;/<span class="name">where</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></div></pre></td></tr></table></figure>
+<h5 id="一对一关联查询"><a href="#一对一关联查询" class="headerlink" title="一对一关联查询"></a>一对一关联查询</h5><ol>
+<li><p>返回值用resultMap</p>
+</li>
+<li><p>resultMap 中使用association 做关联</p>
+  <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"> </div><div class="line"> <span class="tag">&lt;<span class="name">resultMap</span> <span class="attr">id</span>=<span class="string">"order"</span> <span class="attr">type</span>=<span class="string">"Orders"</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">id</span> <span class="attr">column</span>=<span class="string">"id"</span> <span class="attr">property</span>=<span class="string">"id"</span>/&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">"user_id"</span> <span class="attr">property</span>=<span class="string">"userId"</span>/&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">"number"</span> <span class="attr">property</span>=<span class="string">"number"</span>/&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">"createtime"</span> <span class="attr">property</span>=<span class="string">"createtime"</span>/&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">"note"</span> <span class="attr">property</span>=<span class="string">"note"</span>/&gt;</span></div><div class="line"></div><div class="line">   <span class="tag">&lt;<span class="name">association</span> <span class="attr">property</span>=<span class="string">"user"</span> <span class="attr">javaType</span>=<span class="string">"User"</span>&gt;</span></div><div class="line">     <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">"username"</span> <span class="attr">property</span>=<span class="string">"username"</span>/&gt;</span></div><div class="line">   <span class="tag">&lt;/<span class="name">association</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">resultMap</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h5 id="一对多关联-collection"><a href="#一对多关联-collection" class="headerlink" title="一对多关联 collection"></a>一对多关联 collection</h5><h5 id="mybatis-与spring的整合"><a href="#mybatis-与spring的整合" class="headerlink" title="mybatis 与spring的整合"></a>mybatis 与spring的整合</h5><p>  思想：</p>
+<ol>
+<li><p>SqlSessionFactory 对象放入spring 容器中作为容器存在</p>
+</li>
+<li><p>传统的dao 开发中，从spring 容器中获得sqlsession对象</p>
+<p>   写一个是接口，写一个实现类。写一个mapper.xml  文件和接口不在同一个包下是<br>   要使用<mapper resource=""> 这个标签。</mapper></p>
+<p>   在ApplicationContext.xml 中做如下配置：</p>
+<pre><code><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">  </div><div class="line"> <span class="comment">&lt;!--原始dao--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"userDao"</span> <span class="attr">class</span>=<span class="string">"cn.xiechengxu.mybatis.dao.UserDaoImpl"</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"sqlSessionFactory"</span> <span class="attr">ref</span>=<span class="string">"sqlSessionFactoryBean"</span>/&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div></pre></td></tr></table></figure>
+</code></pre><p>注入dao的是实现，并且在dao实现中注入依赖，sqlSessionFactory</p>
+</li>
+<li><p>Mapper 代理形式中，从spring容器中直接获取mapper的代理对象</p>
+<p>  写一个mapper.java 和mapper.xml 文件，并且放到同一个包下面，这样在sqlMapconfig.xml 文件中<br>  <mappers> 标签下引入mapper文件时使用包的形式 <package name="mapper文件包路径"></package></mappers></p>
+<p> 在applicationContext.xml 文件中配置代理mapper</p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">&lt;!--代理mapper--&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"userMapper"</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.mapper.MapperFactoryBean"</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"sqlSessionFactory"</span> <span class="attr">ref</span>=<span class="string">"sqlSessionFactoryBean"</span>/&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"mapperInterface"</span> <span class="attr">value</span>=<span class="string">"cn.xiechengxu.mybatis.mapper.UserMapper"</span>/&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>配置了 MapperFactoryBean，以来注入了sqlSessionFactoryBean 和mapper 接口。 这样就可以直接产生mapper 对象。</p>
+<p>mapper代理曾强版，动态扫描.使用MapperScannerConfigurer 类</p>
+<p>配置文件 </p>
+<pre><code><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">&lt;!--动态代理增强版，扫描--&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.mapper.MapperScannerConfigurer"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"basePackage"</span> <span class="attr">value</span>=<span class="string">"cn.xiechengxu.mybatis.mapper"</span>/&gt;</span></div><div class="line"> <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div></pre></td></tr></table></figure>
+</code></pre><ol>
+<li>数据库的连接以及数据库连接池事物管理都交给spring容器来完成。</li>
+</ol>
+</li>
+</ol>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年10月31日 15:55</p>
+        <p>原始链接： <a class="post-url" href="/2018/06/01/mybatis/" title="">/2018/06/01/mybatis/</a></p>
+        <footer>
+            <a href="">
+                <img src="/images/logo.png" alt="Will Zhang">
+                Will Zhang
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我洗脚~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=/2018/06/01/mybatis/&title=一起写程序&pic=images/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=/2018/06/01/mybatis/&title=一起写程序&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=/2018/06/01/mybatis/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=一起写程序&url=/2018/06/01/mybatis/&via=" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=/2018/06/01/mybatis/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=/2018/06/01/mybatis/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#mybatis"><span class="post-toc-text">mybatis</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#mapper-文件中在写sql时，-v-和-value-的区别"><span class="post-toc-text">mapper 文件中在写sql时，#{v} 和${value}的区别</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#resultType-和-resultMap"><span class="post-toc-text">resultType 和 resultMap</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#动态sql-（四大标签）"><span class="post-toc-text">动态sql （四大标签）</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#一对一关联查询"><span class="post-toc-text">一对一关联查询</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#一对多关联-collection"><span class="post-toc-text">一对多关联 collection</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#mybatis-与spring的整合"><span class="post-toc-text">mybatis 与spring的整合</span></a></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/06/01/myql/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          (no title)
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/06/01/dubbo01/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title"></span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 Will Zhang<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/前端/">前端</a><a class="category-link" href="/categories/后端/">后端</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/资源/">资源</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/css/" style="font-size: 20px;">css</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/spring/" style="font-size: 20px;">spring</a> <a href="/tags/后端/" style="font-size: 20px;">后端</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/资源/" style="font-size: 10px;">资源</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/css/" style="font-size: 20px;">css</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/spring/" style="font-size: 20px;">spring</a> <a href="/tags/后端/" style="font-size: 20px;">后端</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/资源/" style="font-size: 10px;">资源</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

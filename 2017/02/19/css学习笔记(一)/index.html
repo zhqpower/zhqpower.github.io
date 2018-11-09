@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>css学习笔记(一) | 一起写程序</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="每天写程序" />
+  
+  <meta name="description" content="一、 三种样式的使用范围   样式名称 存放位置 作用范围 应用     嵌套样式 head中的title 下面 只能作用在当前标签之中 存放一些当前页面会用到的样式   行内样式 标签中通过style 来设置 当前样式所处的页面 一般情况用的少（整个页面只有这个标签用了这个样式，才会用）   外联样式 在其他文件中，通过link标签 所有的页面都可以使用 存放一些所有页面都会用到的公共样式">
+<meta name="keywords" content="css">
+<meta property="og:type" content="article">
+<meta property="og:title" content="css学习笔记(一)">
+<meta property="og:url" content="/2017/02/19/css学习笔记(一)/index.html">
+<meta property="og:site_name" content="一起写程序">
+<meta property="og:description" content="一、 三种样式的使用范围   样式名称 存放位置 作用范围 应用     嵌套样式 head中的title 下面 只能作用在当前标签之中 存放一些当前页面会用到的样式   行内样式 标签中通过style 来设置 当前样式所处的页面 一般情况用的少（整个页面只有这个标签用了这个样式，才会用）   外联样式 在其他文件中，通过link标签 所有的页面都可以使用 存放一些所有页面都会用到的公共样式">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-03T08:40:01.444Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="css学习笔记(一)">
+<meta name="twitter:description" content="一、 三种样式的使用范围   样式名称 存放位置 作用范围 应用     嵌套样式 head中的title 下面 只能作用在当前标签之中 存放一些当前页面会用到的样式   行内样式 标签中通过style 来设置 当前样式所处的页面 一般情况用的少（整个页面只有这个标签用了这个样式，才会用）   外联样式 在其他文件中，通过link标签 所有的页面都可以使用 存放一些所有页面都会用到的公共样式">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">每天写程序</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        每天写程序
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        技术还是要死磕！
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="每天写程序" target="_blank" href="//xiechengxu.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zhqpower">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/xiechengxu365">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-css学习笔记(一)" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      css学习笔记(一)
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/前端/">前端</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2017-02-19
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h3 id="一、-三种样式的使用范围"><a href="#一、-三种样式的使用范围" class="headerlink" title="一、 三种样式的使用范围"></a>一、 三种样式的使用范围</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">样式名称</th>
+<th style="text-align:left">存放位置</th>
+<th>作用范围</th>
+<th>应用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">嵌套样式</td>
+<td style="text-align:left">head中的title 下面</td>
+<td>只能作用在当前标签之中</td>
+<td>存放一些当前页面会用到的样式</td>
+</tr>
+<tr>
+<td style="text-align:left">行内样式</td>
+<td style="text-align:left">标签中通过style 来设置</td>
+<td>当前样式所处的页面</td>
+<td>一般情况用的少（整个页面只有这个标签用了这个样式，才会用）</td>
+</tr>
+<tr>
+<td style="text-align:left">外联样式</td>
+<td style="text-align:left">在其他文件中，通过link标签</td>
+<td>所有的页面都可以使用</td>
+<td>存放一些所有页面都会用到的公共样式</td>
+</tr>
+</tbody>
+</table>
+<h3 id="二、-属性学习"><a href="#二、-属性学习" class="headerlink" title="二、 属性学习"></a>二、 属性学习</h3><ol>
+<li><p>text-index</p>
+<p>   作用：设置首行缩进。</p>
+<p>   用法: text-index: 2em;</p>
+<p>   em: 一个文本的距离</p>
+</li>
+</ol>
+<p>2.text-align:</p>
+<pre><code>作用：设置文本的位置
+
+
+  取值：
+
+   center: 设置内容在容器的水平方向居中。
+
+   left: 设置内容在容器的水平方向靠左。
+
+   right: 设置内容在容器的水平方向靠右。
+</code></pre><p>3.text-decotion</p>
+<p>   作用： 设置文本的装饰</p>
+<pre><code>取值：
+
+   none: 没有任何装饰
+
+   underline: 下划线
+</code></pre><p>4.margin: 0 auto;</p>
+<pre><code>作用： 设置容器自身水平居中。     
+</code></pre><p>5, css 三大特性</p>
+<pre><code>继承性
+
+   子元素可以继承父元素的样式。
+
+   以text－，font－，line－开头的属性可以继承
+   color 可以继承
+
+   1. a 标签的颜色不能继承，需要改a标签的颜色，直接 作用在a标签上。
+   2. h 标签字体的大小不能被继承，需要改h字体大小，直接 作用在h标签上。
+   3. div 高度如果不设置由内容决定（没内容高度为0),宽度默认由氟元素继承过来。
+
+层叠性
+
+优先级
+！important&gt;行内样式&gt;id选择器 &gt;类选择器&gt;通配符&gt;浏览器默认样式&gt;继承
+
+
+!important属性无法继承。
+</code></pre><ol>
+<li><p>css  权重</p>
+<p> 作用：多个选择器组合以后的优先级<br> 算法：（0，0，0，0）</p>
+<pre><code>第一个0对应的是important 的个数
+第二个0对应的是id选择器的个数
+第三个0对应类选择器的个数
+第四个0对应标签选择器的个数
+</code></pre><p> 比较：</p>
+<pre><code>先从第一个0开始比较，如果第一个0大，
+那么说明这个选择器的权重高，如果第一个相同，
+比较第二个，依次类推。
+</code></pre><p> 选择器在查找元素的时候不是从左往右找，而是从右往左找。    </p>
+</li>
+</ol>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年05月03日 16:40</p>
+        <p>原始链接： <a class="post-url" href="/2017/02/19/css学习笔记(一)/" title="css学习笔记(一)">/2017/02/19/css学习笔记(一)/</a></p>
+        <footer>
+            <a href="">
+                <img src="/images/logo.png" alt="Will Zhang">
+                Will Zhang
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我洗脚~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=/2017/02/19/css学习笔记(一)/&title=《css学习笔记(一)》 — 一起写程序&pic=images/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=/2017/02/19/css学习笔记(一)/&title=《css学习笔记(一)》 — 一起写程序&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=/2017/02/19/css学习笔记(一)/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《css学习笔记(一)》 — 一起写程序&url=/2017/02/19/css学习笔记(一)/&via=" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=/2017/02/19/css学习笔记(一)/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=/2017/02/19/css学习笔记(一)/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/css/" class="color4">css</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#一、-三种样式的使用范围"><span class="post-toc-text">一、 三种样式的使用范围</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#二、-属性学习"><span class="post-toc-text">二、 属性学习</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2017/09/23/docker-安装gitlab/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          docker 安装gitlab
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2017/02/13/java-IO-学习/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">java IO 学习</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 Will Zhang<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/前端/">前端</a><a class="category-link" href="/categories/后端/">后端</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/资源/">资源</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/css/" style="font-size: 20px;">css</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/spring/" style="font-size: 20px;">spring</a> <a href="/tags/后端/" style="font-size: 20px;">后端</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/资源/" style="font-size: 10px;">资源</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/css/" style="font-size: 20px;">css</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/spring/" style="font-size: 20px;">spring</a> <a href="/tags/后端/" style="font-size: 20px;">后端</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/资源/" style="font-size: 10px;">资源</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

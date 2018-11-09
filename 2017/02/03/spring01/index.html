@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>spring学习笔记 | 一起写程序</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="每天写程序" />
+  
+  <meta name="description" content="spring学习笔记Ioc基础ioc的概念：Inversion of Control,即“控制反转” 将对象的实例化交给Ioc容器来完成。 在使用sping前，如果A类需要B类，A类需要自己去负责B类的实例化。     使用spring 控制反转，从容器中得到bean    在spring配置文件中，可以使用Import元素来加载其他的资源文件，这样就可以把资源文件按照模块划分了 1，按照类型拿b">
+<meta name="keywords" content="spring">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring学习笔记">
+<meta property="og:url" content="/2017/02/03/spring01/index.html">
+<meta property="og:site_name" content="一起写程序">
+<meta property="og:description" content="spring学习笔记Ioc基础ioc的概念：Inversion of Control,即“控制反转” 将对象的实例化交给Ioc容器来完成。 在使用sping前，如果A类需要B类，A类需要自己去负责B类的实例化。     使用spring 控制反转，从容器中得到bean    在spring配置文件中，可以使用Import元素来加载其他的资源文件，这样就可以把资源文件按照模块划分了 1，按照类型拿b">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-05-03T08:40:01.460Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="spring学习笔记">
+<meta name="twitter:description" content="spring学习笔记Ioc基础ioc的概念：Inversion of Control,即“控制反转” 将对象的实例化交给Ioc容器来完成。 在使用sping前，如果A类需要B类，A类需要自己去负责B类的实例化。     使用spring 控制反转，从容器中得到bean    在spring配置文件中，可以使用Import元素来加载其他的资源文件，这样就可以把资源文件按照模块划分了 1，按照类型拿b">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">每天写程序</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        每天写程序
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        技术还是要死磕！
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="每天写程序" target="_blank" href="//xiechengxu.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zhqpower">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/xiechengxu365">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-spring01" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="post-title" itemprop="name">
+      spring学习笔记
+    </h1>
+    <div class="post-title-bar">
+      <ul>
+          
+              <li>
+                  <i class="fa fa-book"></i>
+                  
+                      <a href="/categories/后端/">后端</a>
+                  
+              </li>
+          
+        <li>
+          <i class="fa fa-calendar"></i>  2017-02-03
+        </li>
+        <li>
+          <i class="fa fa-eye"></i>
+          <span id="busuanzi_value_page_pv"></span>
+        </li>
+      </ul>
+    </div>
+  
+
+          
+      </header>
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h1 id="spring学习笔记"><a href="#spring学习笔记" class="headerlink" title="spring学习笔记"></a>spring学习笔记</h1><h4 id="Ioc基础"><a href="#Ioc基础" class="headerlink" title="Ioc基础"></a>Ioc基础</h4><h6 id="ioc的概念：Inversion-of-Control-即“控制反转”"><a href="#ioc的概念：Inversion-of-Control-即“控制反转”" class="headerlink" title="ioc的概念：Inversion of Control,即“控制反转”"></a>ioc的概念：Inversion of Control,即“控制反转”</h6><ul>
+<li>将对象的实例化交给Ioc容器来完成。<br> 在使用sping前，如果A类需要B类，A类需要自己去负责B类的实例化。</li>
+</ul>
+<p>   使用spring 控制反转，从容器中得到bean</p>
+<p>   在spring配置文件中，可以使用Import元素来加载其他的资源文件，这样就可以把资源文件按照模块划分了</p>
+<pre><code>1，按照类型拿bean,按照类型拿bean，该类型的bean在spring中只能有一个
+    factory.getBean(HelloWorld.class);
+
+2，按照名字拿bean
+        hello=(HelloWorld)factory.getBean(&quot;hello&quot;);
+
+3，按照名字和类型拿bean
+   hello=factory.getBean(&quot;hello&quot;,HelloWorld.class);
+
+4, 通过别名获取bean
+ - bean的id元素只能按照标准的xml元素名称来写
+      SpringMVC当中，名字就作为url的映射路径；
+      Spring提供了name，在name属性里面就可以为bean起任何的名字 (别名)
+      通过别名也是得到bean的实例
+      在name属性中，可以通过空格/，/；来起多个别名
+      一般情况下，只需要配置id就足够了。
+</code></pre><h4 id="spring测试"><a href="#spring测试" class="headerlink" title="spring测试"></a>spring测试</h4><pre><code> 告诉junit，使用什么环境来运行junit测试。
+  SpringJUnit4ClassRunner:告诉junit，在运行JUNIT方法之前，首先启动spring容器
+         Spring会自动的把这测试对象也作为spring管理的一个bean
+直接得到Spring启动好的容器了。
+
+@RunWith(SpringJUnit4ClassRunner.class)
+
+ @ContextConfiguration:用于告诉spring到哪里去加载配置文件(默认的路径是相对路径)
+  假如什么配置文件都不写，spring会去当前包找 测试类名称（AliasTest）-context.xml这个文件
+  spring测试的核心：测试类应该由spring管理，而不是测试类来管理spring容器。
+
+@ContextConfiguration
+
+public class AliasTest {
+
+  告诉spring容器，把spring容器给我一个引用
+   通过factory就相当于可以访问到spring容器了。
+
+
+ @Autowired
+ private BeanFactory factory;
+
+ ####测试总是启动 ApplicationContext
+</code></pre><h4 id="ApplicationContext"><a href="#ApplicationContext" class="headerlink" title="ApplicationContext"></a>ApplicationContext</h4><pre><code> BeanFactory:是spring里面最最低层的接口，提供了最简单的容器的功能。只提供了实例化对象和拿对象的功能；BeanFactory ApplicationContext
+ ApplicationContext：应用上下文，它是spring的一种更高级的容器；提供了更多的有用的功能；
+ 1，ApplicationContext继承了BeanFactory接口，所以，ApplicationContext也能像beanfactory从容器中得到bean；
+ 2，ApplicationContext提供的额外的功能：
+    1，国际化的功能；
+    2，消息发送/响应机制；
+    3，统一加载资源的功能；
+    4，AOP的功能；
+ 3，ApplicationContext的使用：
+
+      手动初始化ApplicationContext
+
+@Test
+public void test() {
+ // ClassPathXmlApplicationContext:代表，从classpath开始加载使用xml的配置文件
+ ApplicationContext ctx = new ClassPathXmlApplicationContext(
+   &quot;spring/day1/container/ContainerTest-context.xml&quot;);
+</code></pre><h4 id="spring-实例化bean的时机"><a href="#spring-实例化bean的时机" class="headerlink" title="spring 实例化bean的时机"></a>spring 实例化bean的时机</h4><pre><code>BeanFactory在启动的时候不会去实例化bean；只有在从容器中拿bean的时候才会实例化；
+ApplicationContext在启动的时候就把所有的bean全部实例化了。
+在ApplicationContext中，可以为bean配置lazy-init=true来让bean延迟实例化；
+
+哪种好？
+延迟实例化的优点：应用启动的时候占用资源很少；对资源要求较高的应用，比较有优势；
+非延迟实例化的优点：
+    1，所有的bean在启动的时候都加载，系统运行的速度快；
+    2，在启动的时候所有的bean都加载了，我就能在系统启动的时候，尽早的发现系统中的配置问题
+    3，建议web应用，在启动的时候就把所有的bean都加载了。(把费时的操作放到系统启动中完成)
+</code></pre><h4 id="spring-中-实例化bean的四种方式："><a href="#spring-中-实例化bean的四种方式：" class="headerlink" title="spring 中 实例化bean的四种方式："></a>spring 中 实例化bean的四种方式：</h4><pre><code>1，使用bean的构造方法实例化bean；
+
+  如果直接在配置文件中配置bean的id和class,那么要求这个bean必须有默认的无参的构造函数。
+2，静态工厂方法：
+
+  &lt;bean id=&quot;somebean&quot; class=&quot;spring.day1.create.SomeBeanFactory&quot;
+    factory-method=&quot;getBean&quot; /&gt;
+  注意：在class里面配置的是工厂的类型，但是在得bean的时候，用的是bean的类型；
+  静态工厂方法的实例化过程：
+  1，读入配置文件；
+  2，解析每一个bean元素；
+  3，解析到id和class属性；
+     如果bean元素上面有factory-method属性，得到方法名称
+  4，使用反射得到对象（Class.forName(&quot;SomeBeanFactory&quot;).getMethod(&quot;getBean&quot;).invoke(null,null)）-&gt;SomeBean
+  5，把得到的对象实例和id放到容器中；
+
+3,实例工厂方法：
+
+&lt;!-- 实例工厂方法
+  factory-method：工厂方法
+  factory-bean：
+ --&gt;
+ &lt;bean id=&quot;factory&quot; class=&quot;spring.day1.create.SomeBeanFactory&quot; /&gt;
+ &lt;bean id=&quot;somebean&quot; class=&quot;spring.day1.create.SomeBean&quot; factory-bean=&quot;factory&quot; factory-method=&quot;getBean&quot; /&gt;    
+
+
+ 4，FactoryBean：代表工厂类接口，在spring中，只要一个类实现了FactoryBean接口，那么这个类自动的被spring识别为一个工厂类。
+
+      1,如果一个bean要作为一个工厂类存在，那么只需要实现FactoryBean接口；
+      2，在spring配置文件中，只需要配置这个工厂类型，但得到的是工厂生产的bean；
+
+      3，spring处理factorybean的流程：
+
+       1，读入配置文件；
+       2，解析每一个bean元素；
+       3，解析到id和class属性；
+       4，使用反射得到对象
+          得到的是工厂的实例，如果这个实例是实现了FactoryBean接口，spring把该bean转型成FactoryBean；
+          1，通过FactroyBean上面的getObject()得到真正的实例对象；
+          2，通过getObjectType（）得到对象的类型；
+       5，把得到的对象实例和id放到容器中；
+          4,isSingleton:为true的话，得到的对象只有一个实例，如果为false的话，拿一次对象，调用一个getObject()方法；
+
+ 在spring里面提供了一些特殊作用的接口，bean实现了这些接口，bean就具有这个接口所提供的功能。
+</code></pre><h3 id="DI-Dependency-Injection-即”依赖注入”"><a href="#DI-Dependency-Injection-即”依赖注入”" class="headerlink" title="DI- Dependency Injection, 即”依赖注入”"></a>DI- Dependency Injection, 即”依赖注入”</h3><ul>
+<li><p>Ioc 容器注入某个对象所需要的外部资源</p>
+<p>IoC容器就是具有依赖注入功能的容器，IoC容器负责实例化、定位、配置应用程序中的对象及建立这些对象间的依赖</p>
+<p>由IoC容器管理的那些组成你应用程序的对象我们就叫它Bean， Bean就是由Spring容器初始化、装配及管理的对象，除此之外，bean就与应用程序中的其他对象没有什么区别了</p>
+<p>Spring IoC容器通过读取配置文件中的配置元数据，通过元数据对应用中的各个对象进行实例化及装配。一般使用基于xml配置文件进行配置元数据，而且Spring与配置文件完全解耦的，可以使用其他任何可能的方式进行配置元数据，比如注解、基于java文件的、基于属性文件的配置都可以。</p>
+</li>
+</ul>
+
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年05月03日 16:40</p>
+        <p>原始链接： <a class="post-url" href="/2017/02/03/spring01/" title="spring学习笔记">/2017/02/03/spring01/</a></p>
+        <footer>
+            <a href="">
+                <img src="/images/logo.png" alt="Will Zhang">
+                Will Zhang
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我洗脚~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=/2017/02/03/spring01/&title=《spring学习笔记》 — 一起写程序&pic=images/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=/2017/02/03/spring01/&title=《spring学习笔记》 — 一起写程序&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=/2017/02/03/spring01/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《spring学习笔记》 — 一起写程序&url=/2017/02/03/spring01/&via=" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=/2017/02/03/spring01/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=/2017/02/03/spring01/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/spring/" class="color2">spring</a>
+      
+  </li>
+
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#spring学习笔记"><span class="post-toc-text">spring学习笔记</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#Ioc基础"><span class="post-toc-text">Ioc基础</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#ioc的概念：Inversion-of-Control-即“控制反转”"><span class="post-toc-text">ioc的概念：Inversion of Control,即“控制反转”</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#spring测试"><span class="post-toc-text">spring测试</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#ApplicationContext"><span class="post-toc-text">ApplicationContext</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#spring-实例化bean的时机"><span class="post-toc-text">spring 实例化bean的时机</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#spring-中-实例化bean的四种方式："><span class="post-toc-text">spring 中 实例化bean的四种方式：</span></a></li></ol></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#DI-Dependency-Injection-即”依赖注入”"><span class="post-toc-text">DI- Dependency Injection, 即”依赖注入”</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2017/02/09/hexolearn-md/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          搭建博客学习笔记
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2017/02/03/spring02/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title">spring学习笔记02</span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 Will Zhang<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/前端/">前端</a><a class="category-link" href="/categories/后端/">后端</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/资源/">资源</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/css/" style="font-size: 20px;">css</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/spring/" style="font-size: 20px;">spring</a> <a href="/tags/后端/" style="font-size: 20px;">后端</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/资源/" style="font-size: 10px;">资源</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/css/" style="font-size: 20px;">css</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/spring/" style="font-size: 20px;">spring</a> <a href="/tags/后端/" style="font-size: 20px;">后端</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/资源/" style="font-size: 10px;">资源</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

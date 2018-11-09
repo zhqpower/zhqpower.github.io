@@ -1,0 +1,1287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  
+  
+    
+    <entry>
+      <title><![CDATA[lucene]]></title>
+      <url>/2018/06/06/lucene/</url>
+      <content type="html"><![CDATA[<h5 id="创建索引流程"><a href="#创建索引流程" class="headerlink" title="创建索引流程"></a>创建索引流程</h5><ol>
+<li><p>获取文档</p>
+</li>
+<li><p>构建文档对象</p>
+<p>将文档通过域 来描述，一个 文档可以包含很多个域（文档名称，文件路劲…<br>） 不同文档可以有不同的域，同一个文档可以有相同的域</p>
+<p>每个文档都有唯一的编号，就是文档id，自增长+1</p>
+</li>
+<li><p>分析文档（分词）</p>
+<p>每个单词就是一个term， 不同的域拆分出来的相同的单词是不同的term。 term 中包含两部分内容，</p>
+<p>一部分是文档的域名，另一部分是单词的内容。</p>
+</li>
+<li><p>创建索引  （索引库和原始数据）</p>
+<p>索引库:  第一部分： 索引 ， 第二部分： 文档（文档对象）</p>
+</li>
+</ol>
+<pre><code>索引库中存放的就是不同的term, term 包括域名和term内容，如果有相同的term 就会分别 记录下个数 和记录下文档对象id
+
+term  file_content spring  2  98,99
+</code></pre><h5 id="索引流程"><a href="#索引流程" class="headerlink" title="索引流程"></a>索引流程</h5><ol>
+<li><p>用户查询接口（界面），输入查询关键字</p>
+</li>
+<li><p>创建查询</p>
+</li>
+<li><p>执行查询</p>
+</li>
+<li><p>渲染结果</p>
+</li>
+</ol>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> 后端 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[JMS]]></title>
+      <url>/2018/06/01/JMS/</url>
+      <content type="html"><![CDATA[<p>###JMS Java消息服务</p>
+<h6 id="应用程序结构支持两种模型"><a href="#应用程序结构支持两种模型" class="headerlink" title="应用程序结构支持两种模型"></a>应用程序结构支持两种模型</h6><pre><code>1. 点对点或队列模型
+
+2. 发布者/订阅者模型
+</code></pre>]]></content>
+      
+        
+        <tags>
+            
+            <tag> 后端 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title></title>
+      <url>/2018/06/01/%E4%BA%8B%E5%8A%A1/</url>
+      <content type="html"><![CDATA[<p>##事务的基础知识</p>
+<p> 1&gt;事务的特性: ACID </p>
+<pre><code>a. 原子性 ： 要么全部发生，要么都不发生
+
+b. 一致性： 数据在事务前后保持一致性，如A转账给B， 事务结束后。 A+B 的总额是一致的。
+
+c. 隔离性： 事务不受其他并发事务的影响
+
+d. 持久性： 事务一旦提交，对数据库的影响是永久的。
+</code></pre><p> 2&gt; 事务并发问题：</p>
+<pre><code>a.  丢失更新， 两个事务同时更新一行数据，后面的会覆盖前面的。
+
+b.  脏读： 一个事务读取了另一个事务未提交的更新数据。
+
+c.  不可重复读： 同一个事务中，两次读取数据，得到的结果不同。
+
+d.  幻读： 事务再插入已经 检查过不存在的记录时，发现数据已经存在
+</code></pre><p> 3&gt;事务的隔离级别</p>
+<ol>
+<li><p>写数据时加上X锁，直到事务结束。读数据的时候不加锁。 虽然可以避免丢失数据的问题。但是</p>
+<p>可以读到没有提交或者回滚的内容（脏数据） 这就是数据库最低的隔离级别—–Read uncommitted</p>
+</li>
+</ol>
+<ol>
+<li><p>写数据时加上X锁，直到事务结束。读数据时，加上S锁。读完立即释放。 这种避免了脏数据和数据丢失。但是会</p>
+<p>出现不可重复读的问题。 这是数据库第二级的事务隔离级别——-Read committed</p>
+</li>
+</ol>
+<ol>
+<li>写数据时，加上x锁直到事务结束，读数据时，加上S锁，也直到事务结束。 这就避免了 丢失数据，脏数据，不可重复读的问题。</li>
+</ol>
+<pre><code>这是数据库第二级的事务隔离级别------Repeatable read
+</code></pre><ol>
+<li>Serializable (串行化)</li>
+</ol>
+<p>4》事务传播行为 –》业务方法之间调用，事务应该如何处理的问题。（services 调用services ）</p>
+<pre><code>1. PROPAGATION_REQUIRED: 支持当前事务，如果不存在新建一个 （默认）
+
+
+2. PROPAGATION_SUPPORTS: 支持当前事务，如果没有，就不使用事务。
+
+
+3. PROPAGATION_MANDATORY： 支持当前事务，如果不存在，就抛出异常
+
+
+4. PROPAGATION_REQUIRES_NEW: 如果有事务存在，挂起，创建一个新的事务
+
+
+5. PROPAGATION_NOT_SUPPORTED: 以非事务的方式运行，如果事务存在，挂起当前事务
+
+6. PROPAGATION_NEVER: 以非事务的方式运行，如果有事务存在，抛出异常
+
+7. PROPAGATION_NESTED: 如果当前事务存在，则嵌套事务运行。
+</code></pre><h4 id="AOP-事务管理"><a href="#AOP-事务管理" class="headerlink" title="AOP 事务管理"></a>AOP 事务管理</h4><ol>
+<li><p>xml 配置的形式:</p>
+<p>1&gt; DataSourceTransactionManager 这个一定要配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div><div class="line">      <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"transactionManager"</span> <span class="attr">class</span>=<span class="string">"org.springframework.jdbc.datasource.DataSourceTransactionManager"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"dataSource"</span>/&gt;</span></div><div class="line">   <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>2&gt;</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">&lt;!--配置事务通知--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">tx:advice</span> <span class="attr">id</span>=<span class="string">"txAdvice"</span> <span class="attr">transaction-manager</span>=<span class="string">"transactionManager"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">tx:attributes</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"save*"</span> <span class="attr">read-only</span>=<span class="string">"false"</span> <span class="attr">propagation</span>=<span class="string">"REQUIRED"</span> <span class="attr">isolation</span>=<span class="string">"REPEATABLE_READ"</span>/&gt;</span></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"persist*"</span> <span class="attr">read-only</span>=<span class="string">"false"</span> <span class="attr">propagation</span>=<span class="string">"REQUIRED"</span> <span class="attr">isolation</span>=<span class="string">"REPEATABLE_READ"</span>/&gt;</span></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"update*"</span> <span class="attr">read-only</span>=<span class="string">"false"</span> <span class="attr">propagation</span>=<span class="string">"REQUIRED"</span> <span class="attr">isolation</span>=<span class="string">"REPEATABLE_READ"</span>/&gt;</span></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"modify*"</span> <span class="attr">read-only</span>=<span class="string">"false"</span> <span class="attr">propagation</span>=<span class="string">"REQUIRED"</span> <span class="attr">isolation</span>=<span class="string">"REPEATABLE_READ"</span>/&gt;</span></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"delete*"</span> <span class="attr">read-only</span>=<span class="string">"false"</span> <span class="attr">propagation</span>=<span class="string">"REQUIRED"</span> <span class="attr">isolation</span>=<span class="string">"REPEATABLE_READ"</span>/&gt;</span></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"remove*"</span> <span class="attr">read-only</span>=<span class="string">"false"</span> <span class="attr">propagation</span>=<span class="string">"REQUIRED"</span> <span class="attr">isolation</span>=<span class="string">"REPEATABLE_READ"</span>/&gt;</span></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"get*"</span> <span class="attr">read-only</span>=<span class="string">"true"</span> <span class="attr">propagation</span>=<span class="string">"REQUIRED"</span> <span class="attr">isolation</span>=<span class="string">"REPEATABLE_READ"</span>/&gt;</span></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"find*"</span> <span class="attr">read-only</span>=<span class="string">"true"</span> <span class="attr">propagation</span>=<span class="string">"REQUIRED"</span> <span class="attr">isolation</span>=<span class="string">"REPEATABLE_READ"</span>/&gt;</span></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"transfer"</span> <span class="attr">read-only</span>=<span class="string">"false"</span> <span class="attr">propagation</span>=<span class="string">"REQUIRED"</span> <span class="attr">isolation</span>=<span class="string">"REPEATABLE_READ"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">tx:attributes</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">tx:advice</span>&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!--配置织入--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">aop:config</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">aop:pointcut</span> <span class="attr">expression</span>=<span class="string">"execution(* cn.xiechengxu.service.*ServiceImpl.*(..))"</span> <span class="attr">id</span>=<span class="string">"txPc"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">aop:advisor</span> <span class="attr">advice-ref</span>=<span class="string">"txAdvice"</span> <span class="attr">pointcut-ref</span>=<span class="string">"txPc"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">aop:config</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h6 id="注解形式"><a href="#注解形式" class="headerlink" title="注解形式"></a>注解形式</h6><p>  1&gt;</p>
+<pre><code><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div><div class="line">      <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"transactionManager"</span> <span class="attr">class</span>=<span class="string">"org.springframework.jdbc.datasource.DataSourceTransactionManager"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"dataSource"</span>/&gt;</span></div><div class="line">   <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div></pre></td></tr></table></figure>
+</code></pre><p>  2&gt;  开启事务注解扫描</p>
+<pre><code><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">tx:annotation-driven</span> /&gt;</span></div><div class="line"></div><div class="line">  ``` </div><div class="line"></div><div class="line">  3&gt; 在方法上使用事务注解，或者在类上使用（该类的所有方法将使用这种事务的配置）</div><div class="line"></div><div class="line">    ```java</div><div class="line"></div><div class="line">           @Override</div><div class="line">           @Transactional(isolation =Isolation.REPEATABLE_READ,propagation = Propagation.REQUIRED)</div><div class="line">           public void transfer(Integer from, Integer to, Double money) &#123;</div><div class="line">               accountDao.decreaseMoney(from, money);</div><div class="line">               int i = 1 / 0;</div><div class="line">               accountDao.increaseMoney(to, money);</div><div class="line">           &#125;</div></pre></td></tr></table></figure>
+</code></pre>]]></content>
+      
+        
+    </entry>
+    
+    <entry>
+      <title></title>
+      <url>/2018/06/01/nginx/</url>
+      <content type="html"><![CDATA[<h4 id="nginx-的应用场景"><a href="#nginx-的应用场景" class="headerlink" title="nginx 的应用场景"></a>nginx 的应用场景</h4><ol>
+<li><p>作为静态资源的服务器</p>
+</li>
+<li><p>nginx 做反向代理</p>
+<pre><code><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">upstream tomcat1 &#123;</div><div class="line">  server 192.168.25.148:8080;</div><div class="line">    &#125;</div><div class="line">    server &#123;</div><div class="line">        listen       80;</div><div class="line">        server_name  www.sina.com.cn;</div><div class="line"></div><div class="line">        #charset koi8-r;</div><div class="line"></div><div class="line">        #access_log  logs/host.access.log  main;</div><div class="line"></div><div class="line">        location / &#123;</div><div class="line">            proxy_pass   http://tomcat1;</div><div class="line">            index  index.html index.htm;</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+</code></pre></li>
+<li><p>nginx 做负载均衡</p>
+   <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">upstream tomcat2 &#123;</div><div class="line">     server 192.168.25.148:8081;</div><div class="line">     server 192.168.25.148:8082 weight=2;</div><div class="line">       &#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li>nginx +keepalived 实现高可用</li>
+</ol>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
+      <title></title>
+      <url>/2018/06/01/myql/</url>
+      <content type="html"><![CDATA[<h5 id="mysql-数据优化"><a href="#mysql-数据优化" class="headerlink" title="mysql 数据优化"></a>mysql 数据优化</h5><ol>
+<li><p>表的设计要合理（满足3NF） 3范式</p>
+</li>
+<li><p>创建适当的索引 （主键索引| 唯一索引| 普通索引 | 全文索引 | 空间索引）</p>
+</li>
+<li><p>对SQL 语句优化 –&gt; 定位慢查询（explain）</p>
+</li>
+<li><p>使用 分表技术（水平和垂直分表）</p>
+</li>
+<li><p>读写分离</p>
+</li>
+<li><p>创建适当的存储过程，函数，触发器</p>
+</li>
+<li><p>对my.ini 优化。 优化配置</p>
+</li>
+<li><p>软硬件升级</p>
+</li>
+</ol>
+<h5 id="范式-最高级6NF"><a href="#范式-最高级6NF" class="headerlink" title="范式(最高级6NF)"></a>范式(最高级6NF)</h5><p> 1NF: 表的属性（列） 具有庸原子性，即表的列不能再分割。本身含义精准,如列名为省或市 就不满足了。 不能有重复的列</p>
+<pre><code>只要是关系型数据库，天然满足1NF
+</code></pre><p>2NF: 表中不能存在完全一样的一条记录，就满足2NF。一般情况通过设置一个主键来搞定。而且该主键是自增的。</p>
+<p>3NF： 如果列的内容可以推导出来（显示，隐士），就不要单独用一列来存放。</p>
+<pre><code>可以用一个外键关联, 来推导出来。
+</code></pre><p>反3NF： 通常情况下，表设计要严格遵守3NF， 有时也有例外。     </p>
+<h5 id="优化策略"><a href="#优化策略" class="headerlink" title="优化策略"></a>优化策略</h5><ol>
+<li><p>使用索引来搞定</p>
+<p>1》 添加主键索引 –&gt; alert table  emp add primary key (empno)</p>
+</li>
+<li><p>定位慢查询</p>
+<p> 默认情况下，mysql 不会记录慢查询。 在测试时，可以指定mysql记录慢查询。</p>
+</li>
+</ol>
+<pre><code>mysql 慢查询日志文件中 Query_Time  查询时间， Lock_time: 等待时间
+</code></pre><ol>
+<li><p>explain 的使用</p>
+<p>基本用法：explain + sql\G </p>
+</li>
+</ol>
+<h5 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h5><ol>
+<li><p>索引的创建<br>1》 主键索引的创建： a. 创建表的时候，指定某列或者某几列为主键，这样就有了主键索引。</p>
+<pre><code>               b. 创建完表后， 指定主键索引。
+
+主键索引的特点：一个表只能有一个主键。 一个主键可以指向多列。（复合主键） 主键索引效率最高。 主键索引的列，不能为空，不能重复
+</code></pre><p>2》唯一索引的创建，      </p>
+<pre><code>a. create unique index + 索引名称 on +表名+ （列名） 必须指定索引名称
+
+b，alert table + 表名 + add unique on + （列名)
+</code></pre><p> 特点: 一张表中可以有多个唯一索引。 唯一索引如果指定not null， 唯一索引可以为null，而且可以有多个。  唯一索引效率也高，可以考虑多个</p>
+</li>
+</ol>
+<p>   3》 普通索引</p>
+<pre><code>  a.  create   index + 索引名称 on  +表名+ （列名）
+  b.  alter table +表名 add index +（列名）
+
+ 特点： 一张表中可以有多个普通索引， 一个普通索引可以指向多列
+
+
+4》 全文索引
+
+    主要针对文章，汉子，英文的检索，可以快速检索到文章中的关键字
+
+     mysql 默认的全文索引，只对MyISAM 存储引擎起作用。 只支持英文。
+</code></pre><ol>
+<li>索引的查询:<br>1&gt; desc 表名<br>2&gt; show keys  from 表名<br>3&gt; show index from 表名<br>4&gt; show indexes form 表名</li>
+</ol>
+<ol>
+<li><p>删除索引</p>
+<p>drop index 索引名称 on 表名</p>
+<p>alter table 表名 drop index 索引名</p>
+</li>
+</ol>
+<p> ####sql 语句优化和索引的正确使用</p>
+<ol>
+<li><p>如果创建了复合索引，只要查询条件使用了最左边的列，索引一般会被使用。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">ALTER TABLE dept add index (dname,loc);</div><div class="line"></div><div class="line">EXPLAIN select * from dept where dname='xxxxx'  //索引会被使用到</div><div class="line"></div><div class="line">EXPLAIN select * from dept where loc='xxxxx'</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p>在like 语句中，如果以 % 、 _ 开头不会使用索引</p>
+</li>
+<li><p>如果条件中有or, 则要求or 的所有字段都必须有索引。 </p>
+</li>
+</ol>
+<ol>
+<li><p>group by +  order by null 进行优化</p>
+</li>
+<li><p>尽量使用连接查询</p>
+</li>
+<li><p>索引使用情况查询</p>
+<p>show status like ‘Handler_reader%’</p>
+<p>handler_read_key 值越大，表示使用索引查询到的次数越多</p>
+<p>handler_read_md_next 值越大，查询低效</p>
+</li>
+<li><p>对于精度要求比较高的， 数据类型要使用decimal 不要使用float</p>
+<h5 id="分表技术和分区技术"><a href="#分表技术和分区技术" class="headerlink" title="分表技术和分区技术"></a>分表技术和分区技术</h5><p>当一个表很大时，可以考虑添加索引，当索引不能解决时，可以使用分表或者分区技术。</p>
+</li>
+</ol>
+<pre><code>水平分表是指 将大表拆分到不同的小表。   每个小表的结构和大表结构是一样的。
+</code></pre>]]></content>
+      
+        
+    </entry>
+    
+    <entry>
+      <title></title>
+      <url>/2018/06/01/mybatis/</url>
+      <content type="html"><![CDATA[<h4 id="mybatis"><a href="#mybatis" class="headerlink" title="mybatis"></a>mybatis</h4><ol>
+<li><p>mybatis 介绍</p>
+<p>   是开源的持久型框架，</p>
+</li>
+</ol>
+<ol>
+<li><p>jdbc 的问题</p>
+<p>1&gt; 数据库连接频繁的被创建，释放， 浪费系统资源。 如果使用数据库连接池就会解决这个问题，</p>
+<p>2&gt; SQL 语句写在Java 代码中，存在硬编码问题</p>
+<p>3&gt; 使用preparedStatement 向占位符传参数存在硬编码。</p>
+<p>4&gt; 对结果解析存在硬编码</p>
+</li>
+</ol>
+<ol>
+<li>mybatis 架构</li>
+</ol>
+<pre><code>1&gt; mysql 配置文件 （SqlMapConfig.xml+ 若干个和实体类(表)对应的mapper.xml）
+
+2&gt;  SqlSessionFactory (工厂中的原材料就是1 提供的)
+
+3&gt;  工厂会产生一个SqlSession，其实SqlSession 就已经可以操作数据库了
+
+4&gt; Executor 当Sqlsession 调用对数据库的增删改查时，实际上是通过Executor 来执行的. Executor 在Sqlsession 里面
+
+5&gt; MappedStatement 
+  sql 语句被存放在一个pojo 对象里，这里MapperStatement 对象就是作为存放 sql 的pojo 来存在的。 MappedStatement 在Executor里面 
+
+6&gt; 在MappedStatement 这个环节，有输入和输出
+
+  输入: Map 类型 ，String Integer 等基础数据类型，pojo
+
+  输出:  Map 类型 ，String Integer 等基础数据类型，pojo, List
+
+    在MappedStatement向数据库发送请求后，会将查询结果自动映射成输出支持的类型。
+</code></pre><ol>
+<li><p>mybatis 实战初级版</p>
+<ol>
+<li><p>主配置文件 SqlMapConfig.xml  (主要用于配置别名和mapper文件信息)</p>
+<p>1&gt; 在configuration标签下使用typeAliases 变迁可以配置别名或者指定包路径</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&lt;!-- 别名 包以其子包下所有类   头字母大小都行--&gt;</div><div class="line">  &lt;typeAliases&gt;</div><div class="line">        &lt;!-- 		&lt;typeAlias type=<span class="string">"cn.xiechengxu.pojo.User"</span> alias=<span class="string">"User"</span>/&gt; --&gt;</div><div class="line">        &lt;<span class="keyword">package</span> name=<span class="string">"cn.xiechengxu.pojo"</span>/&gt;</div><div class="line">  &lt;/typeAliases&gt;</div></pre></td></tr></table></figure>
+<p>2&gt; 在configuration标签下使用environments 配置数据库连接相关的信息。这个和spring整合后就可以废弃掉</p>
+</li>
+</ol>
+</li>
+</ol>
+<pre><code>3&gt; 在configuration标签下使用 mappers 配置和实体类（数据表）对应的mapper.xml 文件
+
+
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">&lt;mappers&gt;</div><div class="line">&lt;mapper resource=<span class="string">"sqlmap/User.xml"</span>/&gt;</div><div class="line">&lt;/mappers&gt;</div></pre></td></tr></table></figure>
+</code></pre><ol>
+<li><p>在mapper.xml 文件中写sql语句</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;mapper namespace=<span class="string">"test"</span>&gt;</div><div class="line">  </div><div class="line">  &lt;select id=<span class="string">"findUserById"</span>  parameterType=<span class="string">"Integer"</span> resultType=<span class="string">"cn.xiechengxu.pojo.User"</span>&gt;</div><div class="line">    select * from user where id = #&#123;v&#125;</div><div class="line">  &lt;/select&gt;</div><div class="line">  </div><div class="line">&lt;/mapper&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>在测试类中 构建 SqlSession 来执行sql 语句</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">String resource=<span class="string">"SqlMapConfig.xml"</span>;</div><div class="line">    InputStream in=Resources.getResourceAsStream(resource);</div><div class="line"></div><div class="line">    SqlSessionFactory sqlSessionFactory=<span class="keyword">new</span> SqlSessionFactoryBuilder().build(in);</div><div class="line"></div><div class="line">    <span class="comment">//创建SqlSession</span></div><div class="line">      SqlSession sqlSession=sqlSessionFactory.openSession();</div><div class="line">      <span class="comment">//执行sql</span></div><div class="line">      User user=sqlSession.selectOne(<span class="string">"test.findUserById"</span>,<span class="number">10</span>);</div><div class="line">      System.out.println(user);</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h5 id="mapper-文件中在写sql时，-v-和-value-的区别"><a href="#mapper-文件中在写sql时，-v-和-value-的区别" class="headerlink" title="mapper 文件中在写sql时，#{v} 和${value}的区别"></a>mapper 文件中在写sql时，#{v} 和${value}的区别</h5><ol>
+<li><p>前者可以防止sql注入，后者不行</p>
+</li>
+<li><p>前者是占位符，select * from user where id=? 占位符 ? == ‘五’ </p>
+<p>#{} 表示字符串拼接 select * from user where username like ‘%五%  </p>
+<p>和占位符相比，少了单引号</p>
+</li>
+</ol>
+<p>   应为不能防止sql 注入，所有可以将其改写为#{} 这个占位符的形式</p>
+<pre><code>select * from user where username like &quot;%&quot;#{value}&quot;%&quot;
+</code></pre><p>  ${} 这种写法，sql注入，可以通过传入 参数  “五%’ or ‘1%’ =’1”  这样会生成这样的sql </p>
+<pre><code>select * from user where username like &apos;%五%&apos; or &apos;1%&apos; =&apos;1%&apos;    
+</code></pre><ol>
+<li><p>获取插入数据主键ID (使用selectKey 这个标签)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">    &lt;insert id=<span class="string">"insertUser"</span> parameterType=<span class="string">"cn.xiechengxu.pojo.User"</span>&gt;</div><div class="line"></div><div class="line">     &lt;selectKey keyProperty=<span class="string">"id"</span> resultType=<span class="string">"Integer"</span> order=<span class="string">"AFTER"</span>&gt;</div><div class="line">   <span class="function">select  <span class="title">LAST_INSERT_ID</span><span class="params">()</span></span></div><div class="line"><span class="function">    &lt;/selectKey&gt;</span></div><div class="line"><span class="function"></span></div><div class="line"><span class="function">insert into <span class="title">user</span> <span class="params">(username,birthday,address,sex )</span> <span class="title">values</span> <span class="params">(#&#123;username&#125;,#&#123;birthday&#125;,#&#123;address&#125;,#&#123;sex&#125;)</span></span></div><div class="line"><span class="function"></span></div><div class="line"><span class="function">   &lt;/insert&gt;</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>SqlMapConf.xml 中配置别名，可以使用包的形式。 配置map.xml 的位置，也可以使用包。 但是接口类和map.xml 必须在同一个包下，而且名称要相同。 map.xml–map.java    这样可以利用mybatis 提供的mapper 动态代理机制，自动生成一个接口的实现类。<br>要使用mapper动态代理机制，map.xml 文件中命名空间的配置必须执行map接口类的全路径</p>
+</li>
+</ol>
+<h5 id="resultType-和-resultMap"><a href="#resultType-和-resultMap" class="headerlink" title="resultType 和 resultMap"></a>resultType 和 resultMap</h5><p>   返回值类型，可以使用resultType 自动映射 ，也可以使用resultMap手动映射。</p>
+<p>   当pojo 里面的属性名和数据表中的字段名不一致时，使用resultMap作手动映射</p>
+<pre><code>result 中的标签： id表示 id属性
+              result 表示其他字段属性
+</code></pre><h5 id="动态sql-（四大标签）"><a href="#动态sql-（四大标签）" class="headerlink" title="动态sql （四大标签）"></a>动态sql （四大标签）</h5><ol>
+<li><p>if 标签</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"> </div><div class="line">  <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"sex != null and sex !='' "</span>&gt;</span></div><div class="line">	 sex=#&#123;sex&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">if</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>where 标签</p>
+<p>使用<where> 标签包裹调教部分，可以去掉前and。 免得每次都要写1==1</where></p>
+</li>
+<li><p>sql 片段 </p>
+<p> 提取公共的sql 片段</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">  </div><div class="line">   <span class="tag">&lt;<span class="name">sql</span> <span class="attr">id</span>=<span class="string">"selector"</span>&gt;</span></div><div class="line">select * from user</div><div class="line">  <span class="tag">&lt;/<span class="name">sql</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>使用时，用include</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findUserBySexAndName"</span> <span class="attr">parameterType</span>=<span class="string">"User"</span> <span class="attr">resultType</span>=<span class="string">"User"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">include</span> <span class="attr">refid</span>=<span class="string">"selector"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">where</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"sex != null and sex !='' "</span>&gt;</span></div><div class="line">	 sex=#&#123;sex&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">if</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"username != null and username !='' "</span>&gt;</span></div><div class="line">	and  username=#&#123;username&#125;</div><div class="line"><span class="tag">&lt;/<span class="name">if</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">where</span>&gt;</span></div><div class="line"></div><div class="line"> <span class="tag">&lt;/<span class="name">select</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li>foreach 标签</li>
+</ol>
+<p> 如果传入的是vo类，那么collection 是vo类中集合的名称</p>
+<p> 如果传入的是List， 那么collection 是 list</p>
+<p> 如果传入的是数组， 那么collection 是array</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"selectUserByids"</span>  <span class="attr">parameterType</span>=<span class="string">"QueryVo"</span> <span class="attr">resultType</span>=<span class="string">"User"</span>&gt;</span></div><div class="line"></div><div class="line">	 <span class="tag">&lt;<span class="name">include</span> <span class="attr">refid</span>=<span class="string">"selector"</span>/&gt;</span></div><div class="line">	</div><div class="line">	<span class="tag">&lt;<span class="name">where</span>&gt;</span></div><div class="line"></div><div class="line">		</div><div class="line">		<span class="tag">&lt;<span class="name">foreach</span> <span class="attr">collection</span>=<span class="string">"array"</span>  <span class="attr">item</span>=<span class="string">"id"</span> <span class="attr">separator</span>=<span class="string">","</span> <span class="attr">open</span>=<span class="string">"id in ("</span> <span class="attr">close</span>=<span class="string">")"</span>&gt;</span></div><div class="line"></div><div class="line">			#&#123;id&#125;</div><div class="line"></div><div class="line">		<span class="tag">&lt;/<span class="name">foreach</span>&gt;</span></div><div class="line">		</div><div class="line">	<span class="tag">&lt;/<span class="name">where</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></div></pre></td></tr></table></figure>
+<h5 id="一对一关联查询"><a href="#一对一关联查询" class="headerlink" title="一对一关联查询"></a>一对一关联查询</h5><ol>
+<li><p>返回值用resultMap</p>
+</li>
+<li><p>resultMap 中使用association 做关联</p>
+  <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"> </div><div class="line"> <span class="tag">&lt;<span class="name">resultMap</span> <span class="attr">id</span>=<span class="string">"order"</span> <span class="attr">type</span>=<span class="string">"Orders"</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">id</span> <span class="attr">column</span>=<span class="string">"id"</span> <span class="attr">property</span>=<span class="string">"id"</span>/&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">"user_id"</span> <span class="attr">property</span>=<span class="string">"userId"</span>/&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">"number"</span> <span class="attr">property</span>=<span class="string">"number"</span>/&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">"createtime"</span> <span class="attr">property</span>=<span class="string">"createtime"</span>/&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">"note"</span> <span class="attr">property</span>=<span class="string">"note"</span>/&gt;</span></div><div class="line"></div><div class="line">   <span class="tag">&lt;<span class="name">association</span> <span class="attr">property</span>=<span class="string">"user"</span> <span class="attr">javaType</span>=<span class="string">"User"</span>&gt;</span></div><div class="line">     <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">"username"</span> <span class="attr">property</span>=<span class="string">"username"</span>/&gt;</span></div><div class="line">   <span class="tag">&lt;/<span class="name">association</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">resultMap</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h5 id="一对多关联-collection"><a href="#一对多关联-collection" class="headerlink" title="一对多关联 collection"></a>一对多关联 collection</h5><h5 id="mybatis-与spring的整合"><a href="#mybatis-与spring的整合" class="headerlink" title="mybatis 与spring的整合"></a>mybatis 与spring的整合</h5><p>  思想：</p>
+<ol>
+<li><p>SqlSessionFactory 对象放入spring 容器中作为容器存在</p>
+</li>
+<li><p>传统的dao 开发中，从spring 容器中获得sqlsession对象</p>
+<p>   写一个是接口，写一个实现类。写一个mapper.xml  文件和接口不在同一个包下是<br>   要使用<mapper resource=""> 这个标签。</mapper></p>
+<p>   在ApplicationContext.xml 中做如下配置：</p>
+<pre><code><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">  </div><div class="line"> <span class="comment">&lt;!--原始dao--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"userDao"</span> <span class="attr">class</span>=<span class="string">"cn.xiechengxu.mybatis.dao.UserDaoImpl"</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"sqlSessionFactory"</span> <span class="attr">ref</span>=<span class="string">"sqlSessionFactoryBean"</span>/&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div></pre></td></tr></table></figure>
+</code></pre><p>注入dao的是实现，并且在dao实现中注入依赖，sqlSessionFactory</p>
+</li>
+<li><p>Mapper 代理形式中，从spring容器中直接获取mapper的代理对象</p>
+<p>  写一个mapper.java 和mapper.xml 文件，并且放到同一个包下面，这样在sqlMapconfig.xml 文件中<br>  <mappers> 标签下引入mapper文件时使用包的形式 <package name="mapper文件包路径"></package></mappers></p>
+<p> 在applicationContext.xml 文件中配置代理mapper</p>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">&lt;!--代理mapper--&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"userMapper"</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.mapper.MapperFactoryBean"</span>&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"sqlSessionFactory"</span> <span class="attr">ref</span>=<span class="string">"sqlSessionFactoryBean"</span>/&gt;</span></div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"mapperInterface"</span> <span class="attr">value</span>=<span class="string">"cn.xiechengxu.mybatis.mapper.UserMapper"</span>/&gt;</span></div><div class="line"></div><div class="line">  <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>配置了 MapperFactoryBean，以来注入了sqlSessionFactoryBean 和mapper 接口。 这样就可以直接产生mapper 对象。</p>
+<p>mapper代理曾强版，动态扫描.使用MapperScannerConfigurer 类</p>
+<p>配置文件 </p>
+<pre><code><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">&lt;!--动态代理增强版，扫描--&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.mapper.MapperScannerConfigurer"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"basePackage"</span> <span class="attr">value</span>=<span class="string">"cn.xiechengxu.mybatis.mapper"</span>/&gt;</span></div><div class="line"> <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div></pre></td></tr></table></figure>
+</code></pre><ol>
+<li>数据库的连接以及数据库连接池事物管理都交给spring容器来完成。</li>
+</ol>
+</li>
+</ol>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
+      <title></title>
+      <url>/2018/06/01/dubbo01/</url>
+      <content type="html"><![CDATA[<h5 id="dubbo-的使用"><a href="#dubbo-的使用" class="headerlink" title="dubbo 的使用"></a>dubbo 的使用</h5><p> 当web 表现层和服务层分开，放在不同的工程（war包）中时。 表现层和服务层需要通信， 比较高效的就是使用中间件 dubbo</p>
+<p> dubbo 的使用过程：</p>
+<ol>
+<li><p>服务的提供者，启动容器。 向注册中心进行注册。</p>
+</li>
+<li><p>服务的调用方，会向注册中心询问（subscribe)</p>
+</li>
+<li><p>注册中心会向调用方返回 服务信息（ip，端口后等）</p>
+</li>
+<li><p>服务调用方就可以调用服务服务</p>
+</li>
+<li><p>存在一个监控中心，可以监控服务之间的调用次数等（monitor）</p>
+<p>  官方提供了一个dubbo-admin war包作为监控中心，部署到tomcat下即可。</p>
+<p> 如果监控中心和注册中心放在同一台机器上，可以不用做任何配置。否则要修改 tomcat/webapp/dubbo-admin/WEB-INF/dubbo.properties</p>
+<p> 监控中心再jdk1.8 下面会出问题</p>
+</li>
+</ol>
+<h5 id="dubbo-的使用方法"><a href="#dubbo-的使用方法" class="headerlink" title="dubbo 的使用方法"></a>dubbo 的使用方法</h5><p> 服务的发布方增加 <dubbo:service interface="xxx" ref="服务的实现"></dubbo:service></p>
+  <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"> <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"xxxService"</span> <span class="attr">class</span>=<span class="string">"cn.xiechengxu.xxxServiceImpl"</span>/&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">dubbo:protocol</span> <span class="attr">name</span>=<span class="string">"dubbo"</span> <span class="attr">port</span>=<span class="string">"20880"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dubbo:service</span> <span class="attr">interface</span>=<span class="string">"cn.xiechengxu.xxxService"</span> <span class="attr">ref</span>=<span class="string">"xxxService"</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>服务的调用方增加 <dubbo:reference id="xxx" interface="和服务提供方接口名一致"></dubbo:reference></p>
+  <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dubbo:reference</span> <span class="attr">id</span>=<span class="string">"xxxService"</span> <span class="attr">interface</span>=<span class="string">"cn.xiechengxu.xxxService"</span>&gt;</span></div><div class="line"></div><div class="line"> <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"xxxAction"</span> <span class="attr">class</span>=<span class="string">"cn.xxx.XxxAction"</span>&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"xxxService"</span> <span class="attr">ref</span>=<span class="string">"xxxService"</span>&gt;</span></div><div class="line"> <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>服务提供方和调用方都要配置注册中心: <dubbo:registry protocol="zookeeper" address="localhost:2181"></dubbo:registry></p>
+<h4 id="mybatis-分页插件-PageHelper"><a href="#mybatis-分页插件-PageHelper" class="headerlink" title="mybatis 分页插件 PageHelper"></a>mybatis 分页插件 PageHelper</h4>]]></content>
+      
+        
+    </entry>
+    
+    <entry>
+      <title></title>
+      <url>/2018/05/03/thread/</url>
+      <content type="html"><![CDATA[<p>####多线程学习</p>
+<h5 id="线程的停止"><a href="#线程的停止" class="headerlink" title="线程的停止"></a>线程的停止</h5><p>   使用外部干预，定义一个标志flag。 在线程体中以这个标志作为条件。 在线程类中提供设置标志的方法。</p>
+   <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">   <span class="class"><span class="keyword">class</span> <span class="title">Study</span> <span class="keyword">implements</span> <span class="title">Runnable</span></span>&#123;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> flag=<span class="keyword">true</span>;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">while</span> (flag)&#123;</div><div class="line">            System.out.println(<span class="string">"study thread..."</span>);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">stop</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">this</span>.flag=<span class="keyword">false</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h5 id="join-合并线程"><a href="#join-合并线程" class="headerlink" title="join 合并线程"></a>join 合并线程</h5><p>  main线程中join 的其他线程， main线程阻塞，等待join进来的线程执行完成后，继续执行main线程中的业务。</p>
+<h5 id="yield-暂停线程"><a href="#yield-暂停线程" class="headerlink" title="yield 暂停线程"></a>yield 暂停线程</h5><p> 在当前线程中调用 Thread.yield()，会暂停当前线程的执行，去调用其他线程。</p>
+<h5 id="sleep"><a href="#sleep" class="headerlink" title="sleep"></a>sleep</h5><p> 在当前线程中调用 Thread.sleep()， 会阻塞当前线程，不会释放锁。</p>
+<h5 id="同步-也称为并发。"><a href="#同步-也称为并发。" class="headerlink" title="同步 也称为并发。"></a>同步 也称为并发。</h5><p>synchronized</p>
+<p> 可以是锁住一个方法，同一时间，只允许一个方法进行访问。</p>
+<p> 可以锁住一块代码</p>
+<p>####总结 </p>
+<ol>
+<li><p>多线程可以通过继承Thread 类，实现runnable 或者callable 接口三中方法来创建线程类， 可以通过一个线程类 开启 多个线程，线程体中的资源对于每一个线程都是独立的。  也可以通过不同的线程类开启 多线程，当多个不同的线程访问 同一资源是就发生的并发问题，也就是同步问题。 </p>
+</li>
+<li><p>线程 的状态 : 线程被创建后，可能处于运行或者 就绪状态（等待cpu 时间片）， 执行过程中如果遇到sleep，会切换到阻塞状态。时间到来后，自己到就绪状态， 如果遇到wait，将释放锁，不再执行，等待被notify 。</p>
+</li>
+<li><p>解决同步问题时，需要用同一个锁，锁住所有相关的线程体。</p>
+</li>
+</ol>
+<h4 id="被satatic-修饰的成员变量-被-对象-所共享。"><a href="#被satatic-修饰的成员变量-被-对象-所共享。" class="headerlink" title="被satatic 修饰的成员变量 被 对象 所共享。"></a>被satatic 修饰的成员变量 被 对象 所共享。</h4><pre><code>静态会随着 类的加载而加载，消失而消失。 生命周期很长，对象不存在了，静态修饰的变量还在。  
+</code></pre><h5 id="sychronized关键字"><a href="#sychronized关键字" class="headerlink" title="sychronized关键字"></a>sychronized关键字</h5><ol>
+<li><p>对象锁，一般使用objcet</p>
+</li>
+<li><p>同步方法锁， 锁的是this , 也就是当前类的 对象。</p>
+</li>
+<li><p>静态方法锁， 锁的是字节码对象， 当前类.class</p>
+</li>
+</ol>
+<h5 id="等待唤醒机制"><a href="#等待唤醒机制" class="headerlink" title="等待唤醒机制"></a>等待唤醒机制</h5><p>wait(), notify(), notifyAll() 这三个方法，必须使用在同步代码块中，因为是对持用锁的线程进行的操作。</p>
+<p>调用时，必须指明线程持用的锁。—&gt; 锁.notify(); </p>
+<p>一个锁的wait 必须是同一把锁notify   A.wait() —–&gt; A.notify();</p>
+<h5 id="Lock"><a href="#Lock" class="headerlink" title="Lock"></a>Lock</h5><ol>
+<li><p>ReentrantLock ： 可重入，抢不到，不要无限循环。到队列中等待，等到锁被释放后通知去抢</p>
+</li>
+<li><p>Semaphore： 需要多个线程获取同一把锁去做一件事</p>
+</li>
+<li><p>ReadWriteLock: 读写锁，写的时候锁住，读的时候可以允许多个线程。 为了保证可重入性，可以使用ReentrantReadWriteLock</p>
+</li>
+<li><p>CountDownLatch: 一个线程需要等待其他线程结束后才工作。（有个计数器，某个线程结束，计数器减一，如果技术器为0，那么一直等待的线程就可以工作）</p>
+</li>
+<li><p>CyclicBarrier: 几个线程必须互相等待</p>
+</li>
+</ol>
+<h5 id="Lock-接口中的方法"><a href="#Lock-接口中的方法" class="headerlink" title="Lock 接口中的方法"></a>Lock 接口中的方法</h5><ol>
+<li><p>lock 方法，获取锁，需要在finally 中调用 unlock 释放锁。</p>
+</li>
+<li><p>tryLock 方法，会立即返回boolean 值，true 得到锁， false 未获取锁</p>
+</li>
+<li><p>lockInterruptibly 方法， 如果有两个线程，线程1 先获得锁，并且阻塞了。 线程2 可以调用interrupt 方法就 可以中断线程2</p>
+</li>
+</ol>
+<h6 id="线程池的使用"><a href="#线程池的使用" class="headerlink" title="线程池的使用"></a>线程池的使用</h6><pre><code>1. single Thread Executor:  只有一个线程的线程池，提交的任务按顺序执行。 Excutors.newSingleThreadExecutor()  相当于单线程
+
+
+2. Cached Thread Pool: 线程池里有很多线程需要同时执行，老的可用线程 被新任务处罚重新执行，如果线程超过60s 没有被执行，那么将被终止并从线程池中移除。Excetors.newCachedThreadPool()
+
+
+3. Fixed Thread Pool: 有固定线程数的线程池，如果没有任务执行，就一直等待。 Excutors.newFixedThreadPool(4)
+
+
+     一般和cpu 保持一致，int cpuNum=RunTime。getRunTime().avaliableProcessors()
+
+
+4. Scheduled Thread pool: 用来调用即将执行的任务的线程池 excutors.newScheduledThreadPool()
+
+
+5. Single Thread Scheduled Pool: 只有一个线程，用来调度任务在指定时间执行。
+</code></pre><h5 id="向线程池中提交任务"><a href="#向线程池中提交任务" class="headerlink" title="向线程池中提交任务:"></a>向线程池中提交任务:</h5><ol>
+<li>通过excute 方法传入runnable 接口</li>
+</ol>
+   <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">  	pool.execute(<span class="keyword">new</span> Runnable() &#123;</div><div class="line">		<span class="meta">@Override</span></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</div><div class="line">			System.out.println(<span class="string">"thread name: "</span> + Thread.currentThread().getName());</div><div class="line">			<span class="keyword">try</span> &#123;</div><div class="line">				Thread.sleep(<span class="number">1000</span>);</div><div class="line">			&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">				e.printStackTrace();</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<ol>
+<li><p>通过 submit 方法 传入一个Callable 接口， 从Future中get结果，这个方法是会被阻塞的，一直要等到线程任务返回结果。</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">         Future&lt;String&gt; submit = pool.submit(<span class="keyword">new</span> Callable&lt;String&gt;()&#123;</div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">		<span class="comment">//System.out.println("a");</span></div><div class="line">		Thread.sleep(<span class="number">5000</span>);</div><div class="line">		<span class="keyword">return</span> <span class="string">"b--"</span>+Thread.currentThread().getName();</div><div class="line">	&#125;			   </div><div class="line">   &#125;);</div><div class="line"><span class="comment">//从Future中get结果，这个方法是会被阻塞的，一直要等到线程任务返回结果</span></div><div class="line">System.out.println(submit.get());</div></pre></td></tr></table></figure>
+<ol>
+<li>对于schedulerPool来说，调用schedule提交任务时，则可按延迟，按间隔时长来调度线程的运行    </li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">submit = exec.schedule(<span class="keyword">new</span> TaskCallable(i), random.nextInt(<span class="number">10</span>), TimeUnit.SECONDS);</div></pre></td></tr></table></figure>
+<h5 id="BlockingQueue-用来控制线程的同步工具"><a href="#BlockingQueue-用来控制线程的同步工具" class="headerlink" title="BlockingQueue  用来控制线程的同步工具"></a>BlockingQueue<string>  用来控制线程的同步工具</string></h5><p> 主要方法： </p>
+<pre><code>插入： add（obj）把一个对象加入到BlockingQueue 中，如果可以容纳，返回true，否则抛出异常
+
+      put（obj）把一个对象加入BlockingQueue 中，如果可以容纳，返回true，否则线程被阻断，等有空间了加入，否则一直阻塞。
+
+     offer（obj） 把一个对象加入到BlockingQueue 中，如果可以容纳，返回true，否则 返回fase
+</code></pre></li>
+</ol>
+<pre><code>读取： pull（time） 取出BlockingQueue 中排在首位的对象，如果不能立即取出 等待time 时间，如果还是没有，返回null
+
+      take(): 取出时，如果BlockingQueue 为空，则阻塞。 
+</code></pre>]]></content>
+      
+        
+    </entry>
+    
+    <entry>
+      <title></title>
+      <url>/2018/05/03/springAop/</url>
+      <content type="html"><![CDATA[<h5 id="spring-aop"><a href="#spring-aop" class="headerlink" title="spring aop"></a>spring aop</h5><p> aop 采用的是横向抽取机制。 这个是相对于纵向继承来说的。</p>
+<p> 主要采用的是代理机制：</p>
+<p>静态代理：</p>
+<ol>
+<li>真实对象  </li>
+<li>代理对象  </li>
+<li>共同需要实现的接口  </li>
+<li>代理对象持用真实对象的引用。</li>
+</ol>
+<p><em>**</em> 实现runnable 接口的线程类，也采用的是静态代理的方式。</p>
+<p>动态代理：</p>
+<ol>
+<li>真实对象，实现某一个接口</li>
+<li>代理类</li>
+<li>在代理类中通过反射，生成一个代理对象。 </li>
+<li>代理类实现 InvocationHandler, 可以在代理类的invoke 方法中进行增强</li>
+</ol>
+<h5 id="代理机制"><a href="#代理机制" class="headerlink" title="代理机制"></a>代理机制</h5><ol>
+<li><p>jdk 动态代理</p>
+<pre><code>只能对实现了接口的类生成代理, 实际上是生成了一个真是对象的代理类，利用反射。
+</code></pre></li>
+<li><p>CGLib 代理</p>
+<pre><code>可以对所有类生成代理, 实际上是生成了一个真实对象的子类。
+</code></pre></li>
+</ol>
+<pre><code>   1. 真实对象，没有实现接口
+
+   2. 代理类中创建 代理对象。 利用核心类Enhancer类中的方法
+
+        //设置父类
+        enHancer.setSuperclass(productDao.getClass);
+
+        // 设置回调,代理类实现MethodInterceptor接口
+          enHancer.setCallback(this);
+
+    3. 在代理类中 的intercept 中对方法进行增强      
+
+
+spring框架中，如果目标类实现了接口，就会使用jdk动态代理。 如果目标类中没有实现接
+口，就会使用cglib动态代理。  底层会自动切换。
+</code></pre><h5 id="AspecJ-一个基于java-语言的AOP-框架。"><a href="#AspecJ-一个基于java-语言的AOP-框架。" class="headerlink" title="AspecJ 一个基于java 语言的AOP 框架。"></a>AspecJ 一个基于java 语言的AOP 框架。</h5><h5 id="AOP-中的术语"><a href="#AOP-中的术语" class="headerlink" title="AOP 中的术语"></a>AOP 中的术语</h5><pre><code>1. Joinpoint(连接点):
+
+    所有可以被拦截（增强）的方法
+
+2. Pointcut (切入点):
+
+    真正被拦截(增强)的方法
+
+3. Advice (通知/增强)
+
+    增强的代码（比如 记录日志的代码），一般指的是方法级别的增强。
+
+     1&gt; 前置通知 --&gt; 目标方法执行前运行
+
+     2&gt; 后置通知
+
+     3&gt; 环绕通知
+
+     4&gt; 异常抛出通知
+
+     5&gt; 引介通知 （类级别的）
+
+
+
+4. Introduction(引介)
+
+    一个特殊方式的增强, 类级别的增强。 在原有类上添加一个属性或者方法。
+
+5. Target (目标对象)
+
+    要增加的那个类。
+
+6. Weaving (织入)
+
+ 把增加应用到目标对象创建出信心的代理对象的过程， 也就是把日志记录增加到add方法之前的过程
+
+7. Proxy(代理)：
+
+  一个类被aop 织入增强，就会产生一个代理类。
+
+8. 切面：
+
+  切入点和通知的结合   （在add 方法上应用增强）， 允许有多个切点和多个advice
+
+   1&gt; Advisor: 不带有切点的切面。 （也就是对目标类所有的方法进行增强）
+
+   2&gt; PointCutAdvisor: 具有切点的切面。 （也就是对目标类中某些方法进行增强）
+</code></pre><h5 id="spring-aop-使用过程："><a href="#spring-aop-使用过程：" class="headerlink" title="spring aop 使用过程："></a>spring aop 使用过程：</h5><ol>
+<li><p>导入spring aop 相关的jar包</p>
+</li>
+<li><p>确定被代理的对象<br>   1》接口+实现类</p>
+</li>
+<li><p>编写增加的代码 –&gt; 前置增强 可以实现MethodBeforeAdvice 接口     </p>
+</li>
+<li><p>生成代理对象， spring 中可以通过配置生成代理</p>
+<p> 通过 ProxyFactoryBean 来生成代理</p>
+<p>以上方式生成代理对象，每个目标类都要进行配置。这样不合理。</p>
+</li>
+</ol>
+<h5 id="自动代理"><a href="#自动代理" class="headerlink" title="自动代理"></a>自动代理</h5><ol>
+<li><p>BeanNameAutoProxyCreator 根据Bean 名称创建代理</p>
+</li>
+<li><p>DefaultAdvisorAutoProxyCreator 根据Advisor 本身包含的信息创建代理</p>
+</li>
+<li><p>AnnotationAwareAspectJAutoProxyCreator 基于Bean 中的AspectJ 注解 进行自动代理</p>
+</li>
+</ol>
+<p><strong>**</strong>自动代理是基于后处理bean（在Bean 创建的过程中完成的增强。 生成Bean 就是代理 ）</p>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
+      <title></title>
+      <url>/2018/05/03/Zookeeper/</url>
+      <content type="html"><![CDATA[<h4 id="Zookeeper-（-一种分布式协调服务-）"><a href="#Zookeeper-（-一种分布式协调服务-）" class="headerlink" title="Zookeeper  （ 一种分布式协调服务 ）"></a>Zookeeper  （ 一种分布式协调服务 ）</h4><ol>
+<li>管理用户程序提交的数据（状态数据）</li>
+<li>为用户程序提供数据节点的监听服务</li>
+</ol>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[python01]]></title>
+      <url>/2018/01/24/python01/</url>
+      <content type="html"><![CDATA[<h5 id="数据存储方式"><a href="#数据存储方式" class="headerlink" title="数据存储方式"></a>数据存储方式</h5><p> 1G=1024M<br> 1M=1024k<br> 1k=1024 byte</p>
+<p> 1byte 最大存储255<br> 1个字符占1个字节</p>
+<h5 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h5><p> 数字转字符串 str(100)<br> 字符串转数字 int(‘100’)</p>
+<p> 输出: print(“my name is %s” %name)</p>
+<p> 输入: name=input(“请输入名字”)</p>
+<p> 字符串连接 “name is %s”%a+b</p>
+<p> 字符串可以通过下标取出字节，下标可以是负数，从后往前取值</p>
+<p> 切片：a[0:2] 取出a[0],a[1]<br>      a[0:-1] 取出第一个到倒数第二个<br>      a[0 : -1 : 2] 第三个参数为步长,每隔一个取一个</p>
+]]></content>
+      
+        <categories>
+            
+            <category> 后端 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> python </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[python笔记01]]></title>
+      <url>/2018/01/17/python%E7%AC%94%E8%AE%B001/</url>
+      <content type="html"><![CDATA[<h4 id="mac安装虚拟环境"><a href="#mac安装虚拟环境" class="headerlink" title="mac安装虚拟环境"></a>mac安装虚拟环境</h4><p>virutlenv -p +要使用的python版本路径  虚拟环境名称</p>
+<p>virtualenv -p /usr/local/bin/python3  py3stu</p>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[docker]]></title>
+      <url>/2017/10/20/docker/</url>
+      <content type="html"><![CDATA[<p>ps -ef  查看容器中的进程</p>
+<p>saas<br>paas<br>laas<br>caas</p>
+<p>soa<br>12-Factor App<br>基于容器技术向现代化转型<br>混合云，可移植性<br>Cloud Native</p>
+<p>镜像是只读的，构建完成后不能修改。</p>
+<p>容器是可写的。</p>
+<p>过滤镜像</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">docker images  | grep nginx</div><div class="line">docker inspect + 容器名称或者容器id</div></pre></td></tr></table></figure>
+<h3 id="启动一个容器"><a href="#启动一个容器" class="headerlink" title="启动一个容器"></a>启动一个容器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo docker run -p 80:80 -p 443:443 -d \</div><div class="line">--name will_nginx  \</div><div class="line">-v /Users/zhangqiang/nginx/www/html:/usr/share/nginx/html/ \</div><div class="line">-v /Users/zhangqiang/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro</div><div class="line">nginx:1.10</div></pre></td></tr></table></figure>
+<h5 id="docker-镜像的构建"><a href="#docker-镜像的构建" class="headerlink" title="docker 镜像的构建"></a>docker 镜像的构建</h5><ol>
+<li><p>启动一个容器，以交互的模式进入容器。在里面进行一些 安装软件等操作，最后通过docker commit 来生成一个新的镜像。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">docker commit + 容器id +新生成的镜像名称</div><div class="line">docker commit 52b7f23a2e57 vim ==&gt;生成一个名称为vim 的镜像</div></pre></td></tr></table></figure>
+<p>手动构建，繁琐，构建步骤容易遗忘。软件升级不方便。</p>
+</li>
+<li><p>通过dockerfile 文件构建镜像</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">docker build -t + 生成的镜像名称:版本号 + dockerfile 文件路径</div><div class="line"></div><div class="line">docker build -t willvim:1.0 .</div></pre></td></tr></table></figure>
+<p>docker bulid 有个上下文的概念，就是值当前文件夹。 build 时会把当前文件夹的所有文件发送给docker<br>所以尽量将需要build 的文件放在一个文件夹下，也可以通过.dockerignore 文件配置忽略。</p>
+</li>
+</ol>
+<h5 id="Dockerfile-文件编写"><a href="#Dockerfile-文件编写" class="headerlink" title="Dockerfile 文件编写"></a>Dockerfile 文件编写</h5><ol>
+<li><p>所有的Dockerfile 都必须以from 作为第一条指令</p>
+</li>
+<li><p>Dockerfile 中指令建议大写</p>
+</li>
+<li><p>MAINTAINER 后面加作者名称，邮箱等信息。</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">docker inspect + 镜像名称： 查看镜像详情</div><div class="line">docker inspect -f <span class="string">'&#123;&#123;.Author&#125;&#125;'</span> 过滤某个字段</div></pre></td></tr></table></figure>
+</li>
+<li><p>ENV + 变量名 + 变量值</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ENV PKG_NAME vim</div><div class="line">RUN apt-get install -y <span class="variable">$PKG_NAME</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>RUN 指令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">第一种写法： RUN + 要执行的命令 相当于   RUN [<span class="string">"bin/sh"</span>,<span class="string">"-c"</span>，要执行的命令]</div><div class="line">第二种写法： RUN [<span class="string">"apt-get"</span>,<span class="string">"update"</span>], 这种写法，不会处理环境变量,可以使用下面形式</div><div class="line">           RUN [<span class="string">"bin/sh"</span>,<span class="string">"-c"</span>,<span class="string">"apt-get install -y <span class="variable">$PKG_NAME</span>"</span>]</div><div class="line"></div><div class="line"> 多个RUN指令可以使用 &amp;&amp; 符号连接，这样不会产生新层。</div><div class="line"></div><div class="line"> 添加 RUN  <span class="built_in">set</span>-xe    可以输入额外的日志</div></pre></td></tr></table></figure>
+</li>
+<li><p>CMD 指令<br>   提供一个默认运行的命令</p>
+</li>
+</ol>
+]]></content>
+      
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[javascript 正则表达式]]></title>
+      <url>/2017/10/12/javascript-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
+      <content type="html"><![CDATA[<ol>
+<li>\d 可以匹配一个数字</li>
+<li>\w 可以匹配一个字母或数字</li>
+<li>. 可以匹配任意字符</li>
+</ol>
+<pre><code>* 表示任意个  + 表示至少一个 ? 表示0个或者1个
+</code></pre>]]></content>
+      
+        <categories>
+            
+            <category> 前端 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> javascript </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[javascript学习笔记(一)]]></title>
+      <url>/2017/10/12/javascript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%B8%80/</url>
+      <content type="html"><![CDATA[<ol>
+<li><p>js数据类型</p>
+<p>number、 string、boolean、object、function、undefined</p>
+<p>  [] {} null  typeof的结果为object</p>
+</li>
+<li><p>parseInt()或parseFloat() 转化类型到number</p>
+</li>
+<li><p>用String()转化类型到string 或者调用toString()方法</p>
+</li>
+<li><p>typeof 可以判断出nuber string boolean function object</p>
+</li>
+<li><p>判断array 可以使用Array.isArray(arr)</p>
+</li>
+<li><p>数字转化为String<br> 123..toString(); // ‘123’, 注意是两个点！<br>(123).toString();</p>
+</li>
+</ol>
+]]></content>
+      
+        <categories>
+            
+            <category> 前端 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> javascript </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[css 学习笔记(二)]]></title>
+      <url>/2017/10/10/css-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E4%BA%8C/</url>
+      <content type="html"><![CDATA[<h5 id="页面元素分类："><a href="#页面元素分类：" class="headerlink" title="页面元素分类："></a>页面元素分类：</h5><pre><code>block, inline, inline-block,  none（隐藏元素）
+</code></pre><p> 块级元素: 宽度 100% 高度由内容决定</p>
+<p> 行内元素：宽度由内容决定，不能手动设置宽高</p>
+<p> 行内块元素：宽度由内容决定</p>
+<h5 id="盒子模型"><a href="#盒子模型" class="headerlink" title="盒子模型"></a>盒子模型</h5><ol>
+<li><p>页面中每个元素都是一个盒子</p>
+</li>
+<li><p>width, height, padding, border,  margin</p>
+<p>magin 在行内元素中，垂直方向不起作用。</p>
+</li>
+<li><p>box-sizing</p>
+<p>box-sizing: content-box;</p>
+<p>box-sizing: padding-box;</p>
+<p>box-sizing: border-box;</p>
+</li>
+</ol>
+]]></content>
+      
+        <categories>
+            
+            <category> 前端 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> css </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[学习资源整理]]></title>
+      <url>/2017/10/10/resource/</url>
+      <content type="html"><![CDATA[<h5 id="html-amp-css-学习"><a href="#html-amp-css-学习" class="headerlink" title="html &amp; css 学习"></a>html &amp; css 学习</h5><p>  <a href="https://learn.shayhowe.com/" target="_blank" rel="external">https://learn.shayhowe.com/</a></p>
+]]></content>
+      
+        <categories>
+            
+            <category> 资源 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> 资源 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[工具整理]]></title>
+      <url>/2017/10/10/tools/</url>
+      <content type="html"></content>
+      
+        <categories>
+            
+            <category> 工具 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> 工具 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[docker 安装gitlab]]></title>
+      <url>/2017/09/23/docker-%E5%AE%89%E8%A3%85gitlab/</url>
+      <content type="html"><![CDATA[<h5 id="docker-安装"><a href="#docker-安装" class="headerlink" title="docker 安装"></a>docker 安装</h5><p><a href="https://github.com/moby/moby/releases" target="_blank" rel="external">https://github.com/moby/moby/releases</a></p>
+<p>安装命令：curl -fsSL <a href="https://get.docker.com/" target="_blank" rel="external">https://get.docker.com/</a> | sh</p>
+<h4 id="安装compose"><a href="#安装compose" class="headerlink" title="安装compose"></a>安装compose</h4><p><a href="https://github.com/docker/compose/releases" target="_blank" rel="external">https://github.com/docker/compose/releases</a></p>
+<p>curl -L <a href="https://github.com/docker/compose/releases/download/1.16.1/docker-compose-`uname" target="_blank" rel="external">https://github.com/docker/compose/releases/download/1.16.1/docker-compose-`uname</a> -s<code>-</code>uname -m` &gt; /usr/local/bin/docker-compose<br>chmod +x /usr/local/bin/docker-compose</p>
+<h4 id="运行gitlab-镜像"><a href="#运行gitlab-镜像" class="headerlink" title="运行gitlab 镜像"></a>运行gitlab 镜像</h4><p><a href="http://docs.gitlab.com/omnibus/docker/#run-the-image" target="_blank" rel="external">http://docs.gitlab.com/omnibus/docker/#run-the-image</a></p>
+<p>####通过编辑一个yml 文件来启动gitlab 镜像<br> docker-compose.yml</p>
+<p> gitlab:<br>  image: ‘gitlab/gitlab-ce:latest’<br>  hostname: ‘47.91.225.210’<br>  environment:<br>   GITLAB_OMNIBUS_CONFIG: |<br>     external_url ‘<a href="http://example.com" target="_blank" rel="external">http://example.com</a>‘<br>     gitlab_rails[‘gitlab_shell_ssh_port’] = 2222<br>  ports:</p>
+<ul>
+<li>‘2222:22’</li>
+<li>‘8080:80’<br>volumes:</li>
+<li>‘./gitlab/config:/etc/gitlab’</li>
+<li>‘./gitlab/logs:/var/log/gitlab’</li>
+<li>‘./gitlab/data:/var/opt/gitlab’<br>restart: always</li>
+</ul>
+<p> 启动命令： docker-compose up -d</p>
+<p> 查看运行情况：<br> docker-compose ps</p>
+<p>docker-compose logs -f 查看日志</p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> docker </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[css学习笔记(一)]]></title>
+      <url>/2017/02/19/css%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(%E4%B8%80)/</url>
+      <content type="html"><![CDATA[<h3 id="一、-三种样式的使用范围"><a href="#一、-三种样式的使用范围" class="headerlink" title="一、 三种样式的使用范围"></a>一、 三种样式的使用范围</h3><table>
+<thead>
+<tr>
+<th style="text-align:left">样式名称</th>
+<th style="text-align:left">存放位置</th>
+<th>作用范围</th>
+<th>应用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">嵌套样式</td>
+<td style="text-align:left">head中的title 下面</td>
+<td>只能作用在当前标签之中</td>
+<td>存放一些当前页面会用到的样式</td>
+</tr>
+<tr>
+<td style="text-align:left">行内样式</td>
+<td style="text-align:left">标签中通过style 来设置</td>
+<td>当前样式所处的页面</td>
+<td>一般情况用的少（整个页面只有这个标签用了这个样式，才会用）</td>
+</tr>
+<tr>
+<td style="text-align:left">外联样式</td>
+<td style="text-align:left">在其他文件中，通过link标签</td>
+<td>所有的页面都可以使用</td>
+<td>存放一些所有页面都会用到的公共样式</td>
+</tr>
+</tbody>
+</table>
+<h3 id="二、-属性学习"><a href="#二、-属性学习" class="headerlink" title="二、 属性学习"></a>二、 属性学习</h3><ol>
+<li><p>text-index</p>
+<p>   作用：设置首行缩进。</p>
+<p>   用法: text-index: 2em;</p>
+<p>   em: 一个文本的距离</p>
+</li>
+</ol>
+<p>2.text-align:</p>
+<pre><code>作用：设置文本的位置
+
+
+  取值：
+
+   center: 设置内容在容器的水平方向居中。
+
+   left: 设置内容在容器的水平方向靠左。
+
+   right: 设置内容在容器的水平方向靠右。
+</code></pre><p>3.text-decotion</p>
+<p>   作用： 设置文本的装饰</p>
+<pre><code>取值：
+
+   none: 没有任何装饰
+
+   underline: 下划线
+</code></pre><p>4.margin: 0 auto;</p>
+<pre><code>作用： 设置容器自身水平居中。     
+</code></pre><p>5, css 三大特性</p>
+<pre><code>继承性
+
+   子元素可以继承父元素的样式。
+
+   以text－，font－，line－开头的属性可以继承
+   color 可以继承
+
+   1. a 标签的颜色不能继承，需要改a标签的颜色，直接 作用在a标签上。
+   2. h 标签字体的大小不能被继承，需要改h字体大小，直接 作用在h标签上。
+   3. div 高度如果不设置由内容决定（没内容高度为0),宽度默认由氟元素继承过来。
+
+层叠性
+
+优先级
+！important&gt;行内样式&gt;id选择器 &gt;类选择器&gt;通配符&gt;浏览器默认样式&gt;继承
+
+
+!important属性无法继承。
+</code></pre><ol>
+<li><p>css  权重</p>
+<p> 作用：多个选择器组合以后的优先级<br> 算法：（0，0，0，0）</p>
+<pre><code>第一个0对应的是important 的个数
+第二个0对应的是id选择器的个数
+第三个0对应类选择器的个数
+第四个0对应标签选择器的个数
+</code></pre><p> 比较：</p>
+<pre><code>先从第一个0开始比较，如果第一个0大，
+那么说明这个选择器的权重高，如果第一个相同，
+比较第二个，依次类推。
+</code></pre><p> 选择器在查找元素的时候不是从左往右找，而是从右往左找。    </p>
+</li>
+</ol>
+]]></content>
+      
+        <categories>
+            
+            <category> 前端 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> css </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[java IO 学习]]></title>
+      <url>/2017/02/13/java-IO-%E5%AD%A6%E4%B9%A0/</url>
+      <content type="html"><![CDATA[<h3 id="一-基础概念"><a href="#一-基础概念" class="headerlink" title="一. 基础概念"></a>一. 基础概念</h3><ol>
+<li><p>流： 有序、有始有终的传输字节数据的总称和抽像。</p>
+<p>   有数据传输的源，就一定有数据传输的目的地。</p>
+</li>
+<li><p>流分类:</p>
+<p>1&gt; 根据处理类型，字节流和字符流</p>
+<p>2&gt; 根据数据 流向不同，输入流和输出流</p>
+<p> 核心点: 输入与输出的参考对象是内存</p>
+</li>
+<li><p>常有流对象:</p>
+<p> InputStream 和 OutputStream</p>
+<p> Reader 和 Writer</p>
+<p> FileReader 和 FileWriter（字符流，只能针对文本IO,而字节流可以针对任何对象）</p>
+<p> InputStreamReader 和 OutputStreamWriter（转换器，字节流向字符流转换的通道，该类也只能针对文本IO）</p>
+<p> BufferedReader 和 BufferedWriter (缓冲流, 内部默认有8192byte array的缓冲数组，故能够提高读写效率)</p>
+<p> ByteArrayInputStream 和 ByteArrayOutputStream (字节数组流,方便做对象的序列化。字节数组可以保存到任意的存储位置)</p>
+<p> ObjectInputStream 和 ObjectOutputStream (对象流，将对象IO 到相关位置)</p>
+<p> 特殊的 RandomAccessFile (文件随机读取对象，它不是流对象，但它内部封装了流。)</p>
+<hr>
+<h4 id="子节到字符是解码，字符到子节到编码。"><a href="#子节到字符是解码，字符到子节到编码。" class="headerlink" title="子节到字符是解码，字符到子节到编码。"></a>子节到字符是解码，字符到子节到编码。</h4><hr>
+</li>
+</ol>
+]]></content>
+      
+        <categories>
+            
+            <category> 后端 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> java </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[搭建博客学习笔记]]></title>
+      <url>/2017/02/09/hexolearn-md/</url>
+      <content type="html"><![CDATA[<p>分为两个分支，hexo 和master 分支，</p>
+<p>  hexo 分支放原文件，也是工作分支。添加文章后，先提交git</p>
+<p>  master 用于发布博客。 发布之前先rebase hexo 分支上的内容。</p>
+<ol>
+<li><p>在工作分支(hexo)<br>git add .<br>git commit -m “will commit”<br>git push origin hexo</p>
+</li>
+<li><p>在master分支<br>git rebase hexo<br>hexo g<br>hexo deploy</p>
+</li>
+</ol>
+<p>  如果更换了电脑，git clone -b hexo  git@github.com:zhqpower/zhqpower.github.io.git</p>
+<p>  把hexo 分支clone 下来，然后npm install 就可以了  </p>
+<h5 id="常见操作"><a href="#常见操作" class="headerlink" title="常见操作"></a>常见操作</h5><p>  创建文章: hexo new “我的第一篇文章”</p>
+]]></content>
+      
+        
+        <tags>
+            
+            <tag> hexo </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[spring学习笔记]]></title>
+      <url>/2017/02/03/spring01/</url>
+      <content type="html"><![CDATA[<h1 id="spring学习笔记"><a href="#spring学习笔记" class="headerlink" title="spring学习笔记"></a>spring学习笔记</h1><h4 id="Ioc基础"><a href="#Ioc基础" class="headerlink" title="Ioc基础"></a>Ioc基础</h4><h6 id="ioc的概念：Inversion-of-Control-即“控制反转”"><a href="#ioc的概念：Inversion-of-Control-即“控制反转”" class="headerlink" title="ioc的概念：Inversion of Control,即“控制反转”"></a>ioc的概念：Inversion of Control,即“控制反转”</h6><ul>
+<li>将对象的实例化交给Ioc容器来完成。<br> 在使用sping前，如果A类需要B类，A类需要自己去负责B类的实例化。</li>
+</ul>
+<p>   使用spring 控制反转，从容器中得到bean</p>
+<p>   在spring配置文件中，可以使用Import元素来加载其他的资源文件，这样就可以把资源文件按照模块划分了</p>
+<pre><code>1，按照类型拿bean,按照类型拿bean，该类型的bean在spring中只能有一个
+    factory.getBean(HelloWorld.class);
+
+2，按照名字拿bean
+        hello=(HelloWorld)factory.getBean(&quot;hello&quot;);
+
+3，按照名字和类型拿bean
+   hello=factory.getBean(&quot;hello&quot;,HelloWorld.class);
+
+4, 通过别名获取bean
+ - bean的id元素只能按照标准的xml元素名称来写
+      SpringMVC当中，名字就作为url的映射路径；
+      Spring提供了name，在name属性里面就可以为bean起任何的名字 (别名)
+      通过别名也是得到bean的实例
+      在name属性中，可以通过空格/，/；来起多个别名
+      一般情况下，只需要配置id就足够了。
+</code></pre><h4 id="spring测试"><a href="#spring测试" class="headerlink" title="spring测试"></a>spring测试</h4><pre><code> 告诉junit，使用什么环境来运行junit测试。
+  SpringJUnit4ClassRunner:告诉junit，在运行JUNIT方法之前，首先启动spring容器
+         Spring会自动的把这测试对象也作为spring管理的一个bean
+直接得到Spring启动好的容器了。
+
+@RunWith(SpringJUnit4ClassRunner.class)
+
+ @ContextConfiguration:用于告诉spring到哪里去加载配置文件(默认的路径是相对路径)
+  假如什么配置文件都不写，spring会去当前包找 测试类名称（AliasTest）-context.xml这个文件
+  spring测试的核心：测试类应该由spring管理，而不是测试类来管理spring容器。
+
+@ContextConfiguration
+
+public class AliasTest {
+
+  告诉spring容器，把spring容器给我一个引用
+   通过factory就相当于可以访问到spring容器了。
+
+
+ @Autowired
+ private BeanFactory factory;
+
+ ####测试总是启动 ApplicationContext
+</code></pre><h4 id="ApplicationContext"><a href="#ApplicationContext" class="headerlink" title="ApplicationContext"></a>ApplicationContext</h4><pre><code> BeanFactory:是spring里面最最低层的接口，提供了最简单的容器的功能。只提供了实例化对象和拿对象的功能；BeanFactory ApplicationContext
+ ApplicationContext：应用上下文，它是spring的一种更高级的容器；提供了更多的有用的功能；
+ 1，ApplicationContext继承了BeanFactory接口，所以，ApplicationContext也能像beanfactory从容器中得到bean；
+ 2，ApplicationContext提供的额外的功能：
+    1，国际化的功能；
+    2，消息发送/响应机制；
+    3，统一加载资源的功能；
+    4，AOP的功能；
+ 3，ApplicationContext的使用：
+
+      手动初始化ApplicationContext
+
+@Test
+public void test() {
+ // ClassPathXmlApplicationContext:代表，从classpath开始加载使用xml的配置文件
+ ApplicationContext ctx = new ClassPathXmlApplicationContext(
+   &quot;spring/day1/container/ContainerTest-context.xml&quot;);
+</code></pre><h4 id="spring-实例化bean的时机"><a href="#spring-实例化bean的时机" class="headerlink" title="spring 实例化bean的时机"></a>spring 实例化bean的时机</h4><pre><code>BeanFactory在启动的时候不会去实例化bean；只有在从容器中拿bean的时候才会实例化；
+ApplicationContext在启动的时候就把所有的bean全部实例化了。
+在ApplicationContext中，可以为bean配置lazy-init=true来让bean延迟实例化；
+
+哪种好？
+延迟实例化的优点：应用启动的时候占用资源很少；对资源要求较高的应用，比较有优势；
+非延迟实例化的优点：
+    1，所有的bean在启动的时候都加载，系统运行的速度快；
+    2，在启动的时候所有的bean都加载了，我就能在系统启动的时候，尽早的发现系统中的配置问题
+    3，建议web应用，在启动的时候就把所有的bean都加载了。(把费时的操作放到系统启动中完成)
+</code></pre><h4 id="spring-中-实例化bean的四种方式："><a href="#spring-中-实例化bean的四种方式：" class="headerlink" title="spring 中 实例化bean的四种方式："></a>spring 中 实例化bean的四种方式：</h4><pre><code>1，使用bean的构造方法实例化bean；
+
+  如果直接在配置文件中配置bean的id和class,那么要求这个bean必须有默认的无参的构造函数。
+2，静态工厂方法：
+
+  &lt;bean id=&quot;somebean&quot; class=&quot;spring.day1.create.SomeBeanFactory&quot;
+    factory-method=&quot;getBean&quot; /&gt;
+  注意：在class里面配置的是工厂的类型，但是在得bean的时候，用的是bean的类型；
+  静态工厂方法的实例化过程：
+  1，读入配置文件；
+  2，解析每一个bean元素；
+  3，解析到id和class属性；
+     如果bean元素上面有factory-method属性，得到方法名称
+  4，使用反射得到对象（Class.forName(&quot;SomeBeanFactory&quot;).getMethod(&quot;getBean&quot;).invoke(null,null)）-&gt;SomeBean
+  5，把得到的对象实例和id放到容器中；
+
+3,实例工厂方法：
+
+&lt;!-- 实例工厂方法
+  factory-method：工厂方法
+  factory-bean：
+ --&gt;
+ &lt;bean id=&quot;factory&quot; class=&quot;spring.day1.create.SomeBeanFactory&quot; /&gt;
+ &lt;bean id=&quot;somebean&quot; class=&quot;spring.day1.create.SomeBean&quot; factory-bean=&quot;factory&quot; factory-method=&quot;getBean&quot; /&gt;    
+
+
+ 4，FactoryBean：代表工厂类接口，在spring中，只要一个类实现了FactoryBean接口，那么这个类自动的被spring识别为一个工厂类。
+
+      1,如果一个bean要作为一个工厂类存在，那么只需要实现FactoryBean接口；
+      2，在spring配置文件中，只需要配置这个工厂类型，但得到的是工厂生产的bean；
+
+      3，spring处理factorybean的流程：
+
+       1，读入配置文件；
+       2，解析每一个bean元素；
+       3，解析到id和class属性；
+       4，使用反射得到对象
+          得到的是工厂的实例，如果这个实例是实现了FactoryBean接口，spring把该bean转型成FactoryBean；
+          1，通过FactroyBean上面的getObject()得到真正的实例对象；
+          2，通过getObjectType（）得到对象的类型；
+       5，把得到的对象实例和id放到容器中；
+          4,isSingleton:为true的话，得到的对象只有一个实例，如果为false的话，拿一次对象，调用一个getObject()方法；
+
+ 在spring里面提供了一些特殊作用的接口，bean实现了这些接口，bean就具有这个接口所提供的功能。
+</code></pre><h3 id="DI-Dependency-Injection-即”依赖注入”"><a href="#DI-Dependency-Injection-即”依赖注入”" class="headerlink" title="DI- Dependency Injection, 即”依赖注入”"></a>DI- Dependency Injection, 即”依赖注入”</h3><ul>
+<li><p>Ioc 容器注入某个对象所需要的外部资源</p>
+<p>IoC容器就是具有依赖注入功能的容器，IoC容器负责实例化、定位、配置应用程序中的对象及建立这些对象间的依赖</p>
+<p>由IoC容器管理的那些组成你应用程序的对象我们就叫它Bean， Bean就是由Spring容器初始化、装配及管理的对象，除此之外，bean就与应用程序中的其他对象没有什么区别了</p>
+<p>Spring IoC容器通过读取配置文件中的配置元数据，通过元数据对应用中的各个对象进行实例化及装配。一般使用基于xml配置文件进行配置元数据，而且Spring与配置文件完全解耦的，可以使用其他任何可能的方式进行配置元数据，比如注解、基于java文件的、基于属性文件的配置都可以。</p>
+</li>
+</ul>
+]]></content>
+      
+        <categories>
+            
+            <category> 后端 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> spring </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[spring学习笔记02]]></title>
+      <url>/2017/02/03/spring02/</url>
+      <content type="html"><![CDATA[<h4 id="spring-中bean生命周期"><a href="#spring-中bean生命周期" class="headerlink" title="spring 中bean生命周期"></a>spring 中bean生命周期</h4><ol>
+<li><p>bean 对象的实例化</p>
+</li>
+<li><p>封装属性</p>
+</li>
+<li><p>如果bean 实现了BeanNameAware 执行setBeanName</p>
+</li>
+<li><p>如果bean 实现了BeanFactoryAware 或者 ApplicationContextAware  执行设置工厂 setBeanFactory 或者 执行设置上下文对象 setApplicationContext </p>
+</li>
+<li><p>如果存在类，实现了BeanPostProcessor (后处理bean)，执行postProcessBeforeInitialization</p>
+</li>
+</ol>
+<ol>
+<li><p>如果Bean实现了InitializingBean 执行afterPropertiesSet</p>
+</li>
+<li><p>调用 <bean init-method="init"> 执行指定的init 方法</bean></p>
+</li>
+<li><p>如果存在类实现了BeanPostProcessor (处理bean), 执行postProcessAfterInitialization</p>
+</li>
+<li><p>执行业务处理</p>
+</li>
+<li><p>如果Bean 实现了DisposableBean 执行destory</p>
+</li>
+<li><p>调用<bean destroy-mothod="destorymethod"> 执行指定的销毁方法 destorymethod</bean></p>
+</li>
+</ol>
+<h4 id="类中属性注入的方式："><a href="#类中属性注入的方式：" class="headerlink" title="类中属性注入的方式："></a>类中属性注入的方式：</h4><ol>
+<li><p>接口注入</p>
+</li>
+<li><p>构造器注入</p>
+</li>
+<li><p>setter 方法注入</p>
+</li>
+</ol>
+<p>spring 中支持 构造器和setter方法注入, p名称空间注入，SPEL</p>
+]]></content>
+      
+        <categories>
+            
+            <category> 后端 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> spring </tag>
+            
+        </tags>
+        
+    </entry>
+    
+  
+  
+</search>

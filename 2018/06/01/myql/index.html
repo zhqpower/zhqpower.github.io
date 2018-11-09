@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>一起写程序</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="每天写程序" />
+  
+  <meta name="description" content="mysql 数据优化 表的设计要合理（满足3NF） 3范式  创建适当的索引 （主键索引| 唯一索引| 普通索引 | 全文索引 | 空间索引）  对SQL 语句优化 –&amp;gt; 定位慢查询（explain）  使用 分表技术（水平和垂直分表）  读写分离  创建适当的存储过程，函数，触发器  对my.ini 优化。 优化配置  软硬件升级   范式(最高级6NF) 1NF: 表的属性（列） 具有庸">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一起写程序">
+<meta property="og:url" content="/2018/06/01/myql/index.html">
+<meta property="og:site_name" content="一起写程序">
+<meta property="og:description" content="mysql 数据优化 表的设计要合理（满足3NF） 3范式  创建适当的索引 （主键索引| 唯一索引| 普通索引 | 全文索引 | 空间索引）  对SQL 语句优化 –&amp;gt; 定位慢查询（explain）  使用 分表技术（水平和垂直分表）  读写分离  创建适当的存储过程，函数，触发器  对my.ini 优化。 优化配置  软硬件升级   范式(最高级6NF) 1NF: 表的属性（列） 具有庸">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-10-31T07:55:13.334Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一起写程序">
+<meta name="twitter:description" content="mysql 数据优化 表的设计要合理（满足3NF） 3范式  创建适当的索引 （主键索引| 唯一索引| 普通索引 | 全文索引 | 空间索引）  对SQL 语句优化 –&amp;gt; 定位慢查询（explain）  使用 分表技术（水平和垂直分表）  读写分离  创建适当的存储过程，函数，触发器  对my.ini 优化。 优化配置  软硬件升级   范式(最高级6NF) 1NF: 表的属性（列） 具有庸">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">每天写程序</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        每天写程序
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        技术还是要死磕！
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="每天写程序" target="_blank" href="//xiechengxu.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zhqpower">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/xiechengxu365">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-myql" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <h5 id="mysql-数据优化"><a href="#mysql-数据优化" class="headerlink" title="mysql 数据优化"></a>mysql 数据优化</h5><ol>
+<li><p>表的设计要合理（满足3NF） 3范式</p>
+</li>
+<li><p>创建适当的索引 （主键索引| 唯一索引| 普通索引 | 全文索引 | 空间索引）</p>
+</li>
+<li><p>对SQL 语句优化 –&gt; 定位慢查询（explain）</p>
+</li>
+<li><p>使用 分表技术（水平和垂直分表）</p>
+</li>
+<li><p>读写分离</p>
+</li>
+<li><p>创建适当的存储过程，函数，触发器</p>
+</li>
+<li><p>对my.ini 优化。 优化配置</p>
+</li>
+<li><p>软硬件升级</p>
+</li>
+</ol>
+<h5 id="范式-最高级6NF"><a href="#范式-最高级6NF" class="headerlink" title="范式(最高级6NF)"></a>范式(最高级6NF)</h5><p> 1NF: 表的属性（列） 具有庸原子性，即表的列不能再分割。本身含义精准,如列名为省或市 就不满足了。 不能有重复的列</p>
+<pre><code>只要是关系型数据库，天然满足1NF
+</code></pre><p>2NF: 表中不能存在完全一样的一条记录，就满足2NF。一般情况通过设置一个主键来搞定。而且该主键是自增的。</p>
+<p>3NF： 如果列的内容可以推导出来（显示，隐士），就不要单独用一列来存放。</p>
+<pre><code>可以用一个外键关联, 来推导出来。
+</code></pre><p>反3NF： 通常情况下，表设计要严格遵守3NF， 有时也有例外。     </p>
+<h5 id="优化策略"><a href="#优化策略" class="headerlink" title="优化策略"></a>优化策略</h5><ol>
+<li><p>使用索引来搞定</p>
+<p>1》 添加主键索引 –&gt; alert table  emp add primary key (empno)</p>
+</li>
+<li><p>定位慢查询</p>
+<p> 默认情况下，mysql 不会记录慢查询。 在测试时，可以指定mysql记录慢查询。</p>
+</li>
+</ol>
+<pre><code>mysql 慢查询日志文件中 Query_Time  查询时间， Lock_time: 等待时间
+</code></pre><ol>
+<li><p>explain 的使用</p>
+<p>基本用法：explain + sql\G </p>
+</li>
+</ol>
+<h5 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h5><ol>
+<li><p>索引的创建<br>1》 主键索引的创建： a. 创建表的时候，指定某列或者某几列为主键，这样就有了主键索引。</p>
+<pre><code>               b. 创建完表后， 指定主键索引。
+
+主键索引的特点：一个表只能有一个主键。 一个主键可以指向多列。（复合主键） 主键索引效率最高。 主键索引的列，不能为空，不能重复
+</code></pre><p>2》唯一索引的创建，      </p>
+<pre><code>a. create unique index + 索引名称 on +表名+ （列名） 必须指定索引名称
+
+b，alert table + 表名 + add unique on + （列名)
+</code></pre><p> 特点: 一张表中可以有多个唯一索引。 唯一索引如果指定not null， 唯一索引可以为null，而且可以有多个。  唯一索引效率也高，可以考虑多个</p>
+</li>
+</ol>
+<p>   3》 普通索引</p>
+<pre><code>  a.  create   index + 索引名称 on  +表名+ （列名）
+  b.  alter table +表名 add index +（列名）
+
+ 特点： 一张表中可以有多个普通索引， 一个普通索引可以指向多列
+
+
+4》 全文索引
+
+    主要针对文章，汉子，英文的检索，可以快速检索到文章中的关键字
+
+     mysql 默认的全文索引，只对MyISAM 存储引擎起作用。 只支持英文。
+</code></pre><ol>
+<li>索引的查询:<br>1&gt; desc 表名<br>2&gt; show keys  from 表名<br>3&gt; show index from 表名<br>4&gt; show indexes form 表名</li>
+</ol>
+<ol>
+<li><p>删除索引</p>
+<p>drop index 索引名称 on 表名</p>
+<p>alter table 表名 drop index 索引名</p>
+</li>
+</ol>
+<p> ####sql 语句优化和索引的正确使用</p>
+<ol>
+<li><p>如果创建了复合索引，只要查询条件使用了最左边的列，索引一般会被使用。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">ALTER TABLE dept add index (dname,loc);</div><div class="line"></div><div class="line">EXPLAIN select * from dept where dname='xxxxx'  //索引会被使用到</div><div class="line"></div><div class="line">EXPLAIN select * from dept where loc='xxxxx'</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p>在like 语句中，如果以 % 、 _ 开头不会使用索引</p>
+</li>
+<li><p>如果条件中有or, 则要求or 的所有字段都必须有索引。 </p>
+</li>
+</ol>
+<ol>
+<li><p>group by +  order by null 进行优化</p>
+</li>
+<li><p>尽量使用连接查询</p>
+</li>
+<li><p>索引使用情况查询</p>
+<p>show status like ‘Handler_reader%’</p>
+<p>handler_read_key 值越大，表示使用索引查询到的次数越多</p>
+<p>handler_read_md_next 值越大，查询低效</p>
+</li>
+<li><p>对于精度要求比较高的， 数据类型要使用decimal 不要使用float</p>
+<h5 id="分表技术和分区技术"><a href="#分表技术和分区技术" class="headerlink" title="分表技术和分区技术"></a>分表技术和分区技术</h5><p>当一个表很大时，可以考虑添加索引，当索引不能解决时，可以使用分表或者分区技术。</p>
+</li>
+</ol>
+<pre><code>水平分表是指 将大表拆分到不同的小表。   每个小表的结构和大表结构是一样的。
+</code></pre>
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年10月31日 15:55</p>
+        <p>原始链接： <a class="post-url" href="/2018/06/01/myql/" title="">/2018/06/01/myql/</a></p>
+        <footer>
+            <a href="">
+                <img src="/images/logo.png" alt="Will Zhang">
+                Will Zhang
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我洗脚~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=/2018/06/01/myql/&title=一起写程序&pic=images/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=/2018/06/01/myql/&title=一起写程序&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=/2018/06/01/myql/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=一起写程序&url=/2018/06/01/myql/&via=" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=/2018/06/01/myql/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=/2018/06/01/myql/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#mysql-数据优化"><span class="post-toc-text">mysql 数据优化</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#范式-最高级6NF"><span class="post-toc-text">范式(最高级6NF)</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#优化策略"><span class="post-toc-text">优化策略</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#索引"><span class="post-toc-text">索引</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#分表技术和分区技术"><span class="post-toc-text">分表技术和分区技术</span></a></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/06/01/nginx/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          (no title)
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/06/01/mybatis/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title"></span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 Will Zhang<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/前端/">前端</a><a class="category-link" href="/categories/后端/">后端</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/资源/">资源</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/css/" style="font-size: 20px;">css</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/spring/" style="font-size: 20px;">spring</a> <a href="/tags/后端/" style="font-size: 20px;">后端</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/资源/" style="font-size: 10px;">资源</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/css/" style="font-size: 20px;">css</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/spring/" style="font-size: 20px;">spring</a> <a href="/tags/后端/" style="font-size: 20px;">后端</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/资源/" style="font-size: 10px;">资源</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>

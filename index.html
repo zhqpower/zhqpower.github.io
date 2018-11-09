@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>一起写程序</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="每天写程序" />
+  
+  <meta property="og:type" content="website">
+<meta property="og:title" content="一起写程序">
+<meta property="og:url" content="/index.html">
+<meta property="og:site_name" content="一起写程序">
+<meta property="og:locale" content="zh-Hans">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一起写程序">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">每天写程序</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        每天写程序
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        技术还是要死磕！
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="每天写程序" target="_blank" href="//xiechengxu.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zhqpower">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/xiechengxu365">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap">
+  
+    <article id="post-lucene" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/06/lucene/"  >lucene</a>
+    </h1>
+  
+
+          
+      </header>
+    
+    <div class="article-entry " itemprop="articleBody">
+      
+        <div class="article-img">
+            <a href="/2018/06/06/lucene/" >
+                
+                <img src="/images/banner.jpg" alt="lucene" title="lucene">
+                
+            </a>
+        </div>
+        <div class="article-feed">
+            <p>
+                创建索引流程
+获取文档
+
+构建文档对象
+将文档通过域 来描述，一个 文档可以包含很多个域（文档名称，文件路劲…） 不同文档可以有不同的域，同一个文档可以有相同的域
+每个文档都有唯一的编号，就是文档id，自增长+1
+
+分析文档（分词）
+每个单词就是一个term， 不同的域拆分出来的相同的单词是不同的term。 term 中包含两部分内容，
+一部分是文档的域名，另一部分是单词...
+            </p>
+        </div>
+      
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+                <li><i class="fa fa-calendar"></i>2018-06-06</li>
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/后端/" class="color3">后端</a>
+      
+  </li>
+
+        </ul>
+        
+            <a href="/2018/06/06/lucene/#more" class="article-more-link" >more&gt;&gt;</a>
+        
+    </footer>
+  </div>
+</article>
+
+
+  
+    <article id="post-JMS" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/01/JMS/"  >JMS</a>
+    </h1>
+  
+
+          
+      </header>
+    
+    <div class="article-entry " itemprop="articleBody">
+      
+        <div class="article-img">
+            <a href="/2018/06/01/JMS/" >
+                
+                <img src="/images/banner.jpg" alt="JMS" title="JMS">
+                
+            </a>
+        </div>
+        <div class="article-feed">
+            <p>
+                ###JMS Java消息服务
+应用程序结构支持两种模型1. 点对点或队列模型
+
+2. 发布者/订阅者模型
+
+            </p>
+        </div>
+      
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+                <li><i class="fa fa-calendar"></i>2018-06-01</li>
+            
+            
+  <li class="article-footer-tags">
+    <i class="fa fa-tags"></i>
+      
+    <a href="/tags/后端/" class="color3">后端</a>
+      
+  </li>
+
+        </ul>
+        
+            <a href="/2018/06/01/JMS/#more" class="article-more-link" >more&gt;&gt;</a>
+        
+    </footer>
+  </div>
+</article>
+
+
+  
+    <article id="post-事务" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry " itemprop="articleBody">
+      
+        <div class="article-img">
+            <a href="/2018/06/01/事务/" >
+                
+                <img src="/images/banner.jpg" alt="" title="">
+                
+            </a>
+        </div>
+        <div class="article-feed">
+            <p>
+                ##事务的基础知识
+ 1&gt;事务的特性: ACID 
+a. 原子性 ： 要么全部发生，要么都不发生
+
+b. 一致性： 数据在事务前后保持一致性，如A转账给B， 事务结束后。 A+B 的总额是一致的。
+
+c. 隔离性： 事务不受其他并发事务的影响
+
+d. 持久性： 事务一旦提交，对数据库的影响是永久的。
+ 2&gt; 事务并发问题：
+a.  丢失更新， 两个事务同时更新...
+            </p>
+        </div>
+      
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+                <li><i class="fa fa-calendar"></i>2018-06-01</li>
+            
+            
+        </ul>
+        
+            <a href="/2018/06/01/事务/#more" class="article-more-link" >more&gt;&gt;</a>
+        
+    </footer>
+  </div>
+</article>
+
+
+  
+    <article id="post-nginx" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry " itemprop="articleBody">
+      
+        <div class="article-img">
+            <a href="/2018/06/01/nginx/" >
+                
+                <img src="/images/banner.jpg" alt="" title="">
+                
+            </a>
+        </div>
+        <div class="article-feed">
+            <p>
+                nginx 的应用场景
+作为静态资源的服务器
+
+nginx 做反向代理
+1234567891011121314151617upstream tomcat1 &#123;  server 192.168.25.148:8080;    &#125;    server &#123;        listen       80;        server_name  ww...
+            </p>
+        </div>
+      
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+                <li><i class="fa fa-calendar"></i>2018-06-01</li>
+            
+            
+        </ul>
+        
+            <a href="/2018/06/01/nginx/#more" class="article-more-link" >more&gt;&gt;</a>
+        
+    </footer>
+  </div>
+</article>
+
+
+  
+    <article id="post-myql" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry " itemprop="articleBody">
+      
+        <div class="article-img">
+            <a href="/2018/06/01/myql/" >
+                
+                <img src="/images/banner.jpg" alt="" title="">
+                
+            </a>
+        </div>
+        <div class="article-feed">
+            <p>
+                mysql 数据优化
+表的设计要合理（满足3NF） 3范式
+
+创建适当的索引 （主键索引| 唯一索引| 普通索引 | 全文索引 | 空间索引）
+
+对SQL 语句优化 –&gt; 定位慢查询（explain）
+
+使用 分表技术（水平和垂直分表）
+
+读写分离
+
+创建适当的存储过程，函数，触发器
+
+对my.ini 优化。 优化配置
+
+软硬件升级
+
+
+范式(最高级6NF) 1NF...
+            </p>
+        </div>
+      
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+                <li><i class="fa fa-calendar"></i>2018-06-01</li>
+            
+            
+        </ul>
+        
+            <a href="/2018/06/01/myql/#more" class="article-more-link" >more&gt;&gt;</a>
+        
+    </footer>
+  </div>
+</article>
+
+
+  
+    <article id="post-mybatis" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry " itemprop="articleBody">
+      
+        <div class="article-img">
+            <a href="/2018/06/01/mybatis/" >
+                
+                <img src="/images/banner.jpg" alt="" title="">
+                
+            </a>
+        </div>
+        <div class="article-feed">
+            <p>
+                mybatis
+mybatis 介绍
+   是开源的持久型框架，
+
+
+
+jdbc 的问题
+1&gt; 数据库连接频繁的被创建，释放， 浪费系统资源。 如果使用数据库连接池就会解决这个问题，
+2&gt; SQL 语句写在Java 代码中，存在硬编码问题
+3&gt; 使用preparedStatement 向占位符传参数存在硬编码。
+4&gt; 对结果解析存在硬编码
+
+
+
+m...
+            </p>
+        </div>
+      
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+                <li><i class="fa fa-calendar"></i>2018-06-01</li>
+            
+            
+        </ul>
+        
+            <a href="/2018/06/01/mybatis/#more" class="article-more-link" >more&gt;&gt;</a>
+        
+    </footer>
+  </div>
+</article>
+
+
+  
+    <article id="post-dubbo01" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry " itemprop="articleBody">
+      
+        <div class="article-img">
+            <a href="/2018/06/01/dubbo01/" >
+                
+                <img src="/images/banner.jpg" alt="" title="">
+                
+            </a>
+        </div>
+        <div class="article-feed">
+            <p>
+                dubbo 的使用 当web 表现层和服务层分开，放在不同的工程（war包）中时。 表现层和服务层需要通信， 比较高效的就是使用中间件 dubbo
+ dubbo 的使用过程：
+
+服务的提供者，启动容器。 向注册中心进行注册。
+
+服务的调用方，会向注册中心询问（subscribe)
+
+注册中心会向调用方返回 服务信息（ip，端口后等）
+
+服务调用方就可以调用服务服务
+
+存在...
+            </p>
+        </div>
+      
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+                <li><i class="fa fa-calendar"></i>2018-06-01</li>
+            
+            
+        </ul>
+        
+            <a href="/2018/06/01/dubbo01/#more" class="article-more-link" >more&gt;&gt;</a>
+        
+    </footer>
+  </div>
+</article>
+
+
+  
+    <article id="post-thread" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry " itemprop="articleBody">
+      
+        <div class="article-img">
+            <a href="/2018/05/03/thread/" >
+                
+                <img src="/images/banner.jpg" alt="" title="">
+                
+            </a>
+        </div>
+        <div class="article-feed">
+            <p>
+                ####多线程学习
+线程的停止   使用外部干预，定义一个标志flag。 在线程体中以这个标志作为条件。 在线程类中提供设置标志的方法。
+   1234567891011121314151617   class Study implements Runnable&#123;    private boolean flag=true;    @Override    pub...
+            </p>
+        </div>
+      
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+                <li><i class="fa fa-calendar"></i>2018-05-03</li>
+            
+            
+        </ul>
+        
+            <a href="/2018/05/03/thread/#more" class="article-more-link" >more&gt;&gt;</a>
+        
+    </footer>
+  </div>
+</article>
+
+
+  
+    <article id="post-springAop" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry " itemprop="articleBody">
+      
+        <div class="article-img">
+            <a href="/2018/05/03/springAop/" >
+                
+                <img src="/images/banner.jpg" alt="" title="">
+                
+            </a>
+        </div>
+        <div class="article-feed">
+            <p>
+                spring aop aop 采用的是横向抽取机制。 这个是相对于纵向继承来说的。
+ 主要采用的是代理机制：
+静态代理：
+
+真实对象  
+代理对象  
+共同需要实现的接口  
+代理对象持用真实对象的引用。
+
+** 实现runnable 接口的线程类，也采用的是静态代理的方式。
+动态代理：
+
+真实对象，实现某一个接口
+代理类
+在代理类中通过反射，生成一个代理对象。 
+代理类...
+            </p>
+        </div>
+      
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+                <li><i class="fa fa-calendar"></i>2018-05-03</li>
+            
+            
+        </ul>
+        
+            <a href="/2018/05/03/springAop/#more" class="article-more-link" >more&gt;&gt;</a>
+        
+    </footer>
+  </div>
+</article>
+
+
+  
+    <article id="post-Zookeeper" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry " itemprop="articleBody">
+      
+        <div class="article-img">
+            <a href="/2018/05/03/Zookeeper/" >
+                
+                <img src="/images/banner.jpg" alt="" title="">
+                
+            </a>
+        </div>
+        <div class="article-feed">
+            <p>
+                Zookeeper  （ 一种分布式协调服务 ）
+管理用户程序提交的数据（状态数据）
+为用户程序提供数据节点的监听服务
+
+
+            </p>
+        </div>
+      
+        
+    </div>
+    <footer class="article-footer">
+        
+        <ul class="article-footer-menu">
+            
+                <li><i class="fa fa-calendar"></i>2018-05-03</li>
+            
+            
+        </ul>
+        
+            <a href="/2018/05/03/Zookeeper/#more" class="article-more-link" >more&gt;&gt;</a>
+        
+    </footer>
+  </div>
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next >></a>
+  </nav>
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 Will Zhang<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "",
+      animate: true,
+      isHome: true,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/前端/">前端</a><a class="category-link" href="/categories/后端/">后端</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/资源/">资源</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/css/" style="font-size: 20px;">css</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/spring/" style="font-size: 20px;">spring</a> <a href="/tags/后端/" style="font-size: 20px;">后端</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/资源/" style="font-size: 10px;">资源</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/css/" style="font-size: 20px;">css</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/spring/" style="font-size: 20px;">spring</a> <a href="/tags/后端/" style="font-size: 20px;">后端</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/资源/" style="font-size: 10px;">资源</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  </div>
+</body>
+</html>

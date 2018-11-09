@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>一起写程序</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+    <meta name="keywords" content="每天写程序" />
+  
+  <meta name="description" content="##事务的基础知识  1&amp;gt;事务的特性: ACID  a. 原子性 ： 要么全部发生，要么都不发生  b. 一致性： 数据在事务前后保持一致性，如A转账给B， 事务结束后。 A+B 的总额是一致的。  c. 隔离性： 事务不受其他并发事务的影响  d. 持久性： 事务一旦提交，对数据库的影响是永久的。  2&amp;gt; 事务并发问题： a.  丢失更新， 两个事务同时更新一行数据，后面的会覆盖前面">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一起写程序">
+<meta property="og:url" content="/2018/06/01/事务/index.html">
+<meta property="og:site_name" content="一起写程序">
+<meta property="og:description" content="##事务的基础知识  1&amp;gt;事务的特性: ACID  a. 原子性 ： 要么全部发生，要么都不发生  b. 一致性： 数据在事务前后保持一致性，如A转账给B， 事务结束后。 A+B 的总额是一致的。  c. 隔离性： 事务不受其他并发事务的影响  d. 持久性： 事务一旦提交，对数据库的影响是永久的。  2&amp;gt; 事务并发问题： a.  丢失更新， 两个事务同时更新一行数据，后面的会覆盖前面">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-10-31T07:55:13.340Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一起写程序">
+<meta name="twitter:description" content="##事务的基础知识  1&amp;gt;事务的特性: ACID  a. 原子性 ： 要么全部发生，要么都不发生  b. 一致性： 数据在事务前后保持一致性，如A转账给B， 事务结束后。 A+B 的总额是一致的。  c. 隔离性： 事务不受其他并发事务的影响  d. 持久性： 事务一旦提交，对数据库的影响是永久的。  2&amp;gt; 事务并发问题： a.  丢失更新， 两个事务同时更新一行数据，后面的会覆盖前面">
+  
+  
+    <link rel="icon" href="/favicon.ico">
+  
+  <link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/pace.min.js"></script>
+  
+
+  
+  
+
+</head>
+
+<body>
+  <div id="container">
+      <header id="header">
+    <div id="banner"></div>
+    <div id="header-outer">
+        <div id="header-menu" class="header-menu-pos animated">
+            <div class="header-menu-container">
+                <a href="/" class="left">
+                    <span class="site-title">每天写程序</span>
+                </a>
+                <nav id="header-menu-nav" class="right">
+                    
+                    <a  href="/">
+                        <i class="fa fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                    
+                    <a  href="/archives">
+                        <i class="fa fa-archive"></i>
+                        <span>Archives</span>
+                    </a>
+                    
+                    <a  href="/about">
+                        <i class="fa fa-user"></i>
+                        <span>About</span>
+                    </a>
+                    
+                </nav>
+                <a class="mobile-header-menu-button">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+        </div>
+        <div id="header-row">
+            <div id="logo">
+                <a href="/">
+                    <img src="/images/logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="header-info">
+                <div id="header-title">
+                    
+                    <h2>
+                        每天写程序
+                    </h2>
+                    
+                </div>
+                <div id="header-description">
+                    
+                    <h3>
+                        技术还是要死磕！
+                    </h3>
+                    
+                </div>
+            </div>
+            <nav class="header-nav">
+                <div class="social">
+                    
+                        <a title="每天写程序" target="_blank" href="//xiechengxu.cn">
+                            <i class="fa fa-home fa-2x"></i></a>
+                    
+                        <a title="Github" target="_blank" href="//github.com/zhqpower">
+                            <i class="fa fa-github fa-2x"></i></a>
+                    
+                        <a title="Weibo" target="_blank" href="//weibo.com/xiechengxu365">
+                            <i class="fa fa-weibo fa-2x"></i></a>
+                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</header>
+      <div class="outer">
+        <section id="main" class="body-wrap"><article id="post-事务" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+    <div class="article-entry post-content" itemprop="articleBody">
+      
+            
+            <p>##事务的基础知识</p>
+<p> 1&gt;事务的特性: ACID </p>
+<pre><code>a. 原子性 ： 要么全部发生，要么都不发生
+
+b. 一致性： 数据在事务前后保持一致性，如A转账给B， 事务结束后。 A+B 的总额是一致的。
+
+c. 隔离性： 事务不受其他并发事务的影响
+
+d. 持久性： 事务一旦提交，对数据库的影响是永久的。
+</code></pre><p> 2&gt; 事务并发问题：</p>
+<pre><code>a.  丢失更新， 两个事务同时更新一行数据，后面的会覆盖前面的。
+
+b.  脏读： 一个事务读取了另一个事务未提交的更新数据。
+
+c.  不可重复读： 同一个事务中，两次读取数据，得到的结果不同。
+
+d.  幻读： 事务再插入已经 检查过不存在的记录时，发现数据已经存在
+</code></pre><p> 3&gt;事务的隔离级别</p>
+<ol>
+<li><p>写数据时加上X锁，直到事务结束。读数据的时候不加锁。 虽然可以避免丢失数据的问题。但是</p>
+<p>可以读到没有提交或者回滚的内容（脏数据） 这就是数据库最低的隔离级别—–Read uncommitted</p>
+</li>
+</ol>
+<ol>
+<li><p>写数据时加上X锁，直到事务结束。读数据时，加上S锁。读完立即释放。 这种避免了脏数据和数据丢失。但是会</p>
+<p>出现不可重复读的问题。 这是数据库第二级的事务隔离级别——-Read committed</p>
+</li>
+</ol>
+<ol>
+<li>写数据时，加上x锁直到事务结束，读数据时，加上S锁，也直到事务结束。 这就避免了 丢失数据，脏数据，不可重复读的问题。</li>
+</ol>
+<pre><code>这是数据库第二级的事务隔离级别------Repeatable read
+</code></pre><ol>
+<li>Serializable (串行化)</li>
+</ol>
+<p>4》事务传播行为 –》业务方法之间调用，事务应该如何处理的问题。（services 调用services ）</p>
+<pre><code>1. PROPAGATION_REQUIRED: 支持当前事务，如果不存在新建一个 （默认）
+
+
+2. PROPAGATION_SUPPORTS: 支持当前事务，如果没有，就不使用事务。
+
+
+3. PROPAGATION_MANDATORY： 支持当前事务，如果不存在，就抛出异常
+
+
+4. PROPAGATION_REQUIRES_NEW: 如果有事务存在，挂起，创建一个新的事务
+
+
+5. PROPAGATION_NOT_SUPPORTED: 以非事务的方式运行，如果事务存在，挂起当前事务
+
+6. PROPAGATION_NEVER: 以非事务的方式运行，如果有事务存在，抛出异常
+
+7. PROPAGATION_NESTED: 如果当前事务存在，则嵌套事务运行。
+</code></pre><h4 id="AOP-事务管理"><a href="#AOP-事务管理" class="headerlink" title="AOP 事务管理"></a>AOP 事务管理</h4><ol>
+<li><p>xml 配置的形式:</p>
+<p>1&gt; DataSourceTransactionManager 这个一定要配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div><div class="line">      <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"transactionManager"</span> <span class="attr">class</span>=<span class="string">"org.springframework.jdbc.datasource.DataSourceTransactionManager"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"dataSource"</span>/&gt;</span></div><div class="line">   <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>2&gt;</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="comment">&lt;!--配置事务通知--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">tx:advice</span> <span class="attr">id</span>=<span class="string">"txAdvice"</span> <span class="attr">transaction-manager</span>=<span class="string">"transactionManager"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">tx:attributes</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"save*"</span> <span class="attr">read-only</span>=<span class="string">"false"</span> <span class="attr">propagation</span>=<span class="string">"REQUIRED"</span> <span class="attr">isolation</span>=<span class="string">"REPEATABLE_READ"</span>/&gt;</span></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"persist*"</span> <span class="attr">read-only</span>=<span class="string">"false"</span> <span class="attr">propagation</span>=<span class="string">"REQUIRED"</span> <span class="attr">isolation</span>=<span class="string">"REPEATABLE_READ"</span>/&gt;</span></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"update*"</span> <span class="attr">read-only</span>=<span class="string">"false"</span> <span class="attr">propagation</span>=<span class="string">"REQUIRED"</span> <span class="attr">isolation</span>=<span class="string">"REPEATABLE_READ"</span>/&gt;</span></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"modify*"</span> <span class="attr">read-only</span>=<span class="string">"false"</span> <span class="attr">propagation</span>=<span class="string">"REQUIRED"</span> <span class="attr">isolation</span>=<span class="string">"REPEATABLE_READ"</span>/&gt;</span></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"delete*"</span> <span class="attr">read-only</span>=<span class="string">"false"</span> <span class="attr">propagation</span>=<span class="string">"REQUIRED"</span> <span class="attr">isolation</span>=<span class="string">"REPEATABLE_READ"</span>/&gt;</span></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"remove*"</span> <span class="attr">read-only</span>=<span class="string">"false"</span> <span class="attr">propagation</span>=<span class="string">"REQUIRED"</span> <span class="attr">isolation</span>=<span class="string">"REPEATABLE_READ"</span>/&gt;</span></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"get*"</span> <span class="attr">read-only</span>=<span class="string">"true"</span> <span class="attr">propagation</span>=<span class="string">"REQUIRED"</span> <span class="attr">isolation</span>=<span class="string">"REPEATABLE_READ"</span>/&gt;</span></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"find*"</span> <span class="attr">read-only</span>=<span class="string">"true"</span> <span class="attr">propagation</span>=<span class="string">"REQUIRED"</span> <span class="attr">isolation</span>=<span class="string">"REPEATABLE_READ"</span>/&gt;</span></div><div class="line"></div><div class="line">        <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"transfer"</span> <span class="attr">read-only</span>=<span class="string">"false"</span> <span class="attr">propagation</span>=<span class="string">"REQUIRED"</span> <span class="attr">isolation</span>=<span class="string">"REPEATABLE_READ"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">tx:attributes</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">tx:advice</span>&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!--配置织入--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">aop:config</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">aop:pointcut</span> <span class="attr">expression</span>=<span class="string">"execution(* cn.xiechengxu.service.*ServiceImpl.*(..))"</span> <span class="attr">id</span>=<span class="string">"txPc"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">aop:advisor</span> <span class="attr">advice-ref</span>=<span class="string">"txAdvice"</span> <span class="attr">pointcut-ref</span>=<span class="string">"txPc"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">aop:config</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h6 id="注解形式"><a href="#注解形式" class="headerlink" title="注解形式"></a>注解形式</h6><p>  1&gt;</p>
+<pre><code><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div><div class="line">      <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"transactionManager"</span> <span class="attr">class</span>=<span class="string">"org.springframework.jdbc.datasource.DataSourceTransactionManager"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"dataSource"</span>/&gt;</span></div><div class="line">   <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div></pre></td></tr></table></figure>
+</code></pre><p>  2&gt;  开启事务注解扫描</p>
+<pre><code><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">tx:annotation-driven</span> /&gt;</span></div><div class="line"></div><div class="line">  ``` </div><div class="line"></div><div class="line">  3&gt; 在方法上使用事务注解，或者在类上使用（该类的所有方法将使用这种事务的配置）</div><div class="line"></div><div class="line">    ```java</div><div class="line"></div><div class="line">           @Override</div><div class="line">           @Transactional(isolation =Isolation.REPEATABLE_READ,propagation = Propagation.REQUIRED)</div><div class="line">           public void transfer(Integer from, Integer to, Double money) &#123;</div><div class="line">               accountDao.decreaseMoney(from, money);</div><div class="line">               int i = 1 / 0;</div><div class="line">               accountDao.increaseMoney(to, money);</div><div class="line">           &#125;</div></pre></td></tr></table></figure>
+</code></pre>
+            <div class="post-copyright">
+    <div class="content">
+        <p>最后更新： 2018年10月31日 15:55</p>
+        <p>原始链接： <a class="post-url" href="/2018/06/01/事务/" title="">/2018/06/01/事务/</a></p>
+        <footer>
+            <a href="">
+                <img src="/images/logo.png" alt="Will Zhang">
+                Will Zhang
+            </a>
+        </footer>
+    </div>
+</div>
+
+      
+        
+            
+<div class="page-reward">
+    <a id="rewardBtn" href="javascript:;">赏</a>
+</div>
+
+<div id="reward" class="post-modal reward-lay">
+    <a class="close" href="javascript:;" id="reward-close">×</a>
+    <span class="reward-title">
+        <i class="icon icon-quote-left"></i>
+        请我洗脚~
+        <i class="icon icon-quote-right"></i>
+    </span>
+    <div class="reward-content">
+        
+        <div class="reward-code">
+            <img id="rewardCode" src="/images/wechat_code.jpg" alt="打赏二维码">
+        </div>
+        <div class="reward-select">
+            
+            <label class="reward-select-item checked" data-id="wechat" data-wechat="/images/wechat_code.jpg">
+                <img class="reward-select-item-wechat" src="/images/wechat.png" alt="微信">
+            </label>
+            
+            
+            <label class="reward-select-item" data-id="alipay" data-alipay="/images/alipay_code.jpg">
+                <img class="reward-select-item-alipay" src="/images/alipay.png" alt="支付宝">
+            </label>
+            
+        </div>
+    </div>
+</div>
+
+
+        
+    </div>
+    <footer class="article-footer">
+        
+        
+<div class="post-share">
+    <a href="javascript:;" id="share-sub" class="post-share-fab">
+        <i class="fa fa-share-alt"></i>
+    </a>
+    <div class="post-share-list" id="share-list">
+        <ul class="share-icons">
+          <li>
+            <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=/2018/06/01/事务/&title=一起写程序&pic=images/logo.png" data-title="微博">
+              <i class="fa fa-weibo"></i>
+            </a>
+          </li>
+          <li>
+            <a class="weixin share-sns" id="wxFab" href="javascript:;" data-title="微信">
+              <i class="fa fa-weixin"></i>
+            </a>
+          </li>
+          <li>
+            <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=/2018/06/01/事务/&title=一起写程序&source=" data-title="QQ">
+              <i class="fa fa-qq"></i>
+            </a>
+          </li>
+          <li>
+            <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=/2018/06/01/事务/" data-title="Facebook">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+          <li>
+            <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=一起写程序&url=/2018/06/01/事务/&via=" data-title="Twitter">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li>
+            <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=/2018/06/01/事务/" data-title="Google+">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        </ul>
+     </div>
+</div>
+<div class="post-modal wx-share" id="wxShare">
+    <a class="close" href="javascript:;" id="wxShare-close">×</a>
+    <p>扫一扫，分享到微信</p>
+    <img src="//api.qrserver.com/v1/create-qr-code/?data=/2018/06/01/事务/" alt="微信分享二维码">
+</div>
+
+<div class="mask"></div>
+
+        
+        <ul class="article-footer-menu">
+            
+            
+        </ul>
+        
+    </footer>
+  </div>
+</article>
+
+
+    <aside class="post-toc-pos post-toc-top" id="post-toc">
+        <nav class="post-toc-wrap">
+            <ol class="post-toc"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#AOP-事务管理"><span class="post-toc-text">AOP 事务管理</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-6"><a class="post-toc-link" href="#注解形式"><span class="post-toc-text">注解形式</span></a></li></ol></li></ol></li></ol>
+        </nav>
+    </aside>
+    
+
+<nav id="article-nav">
+  
+    <a href="/2018/06/01/JMS/" id="article-nav-newer" class="article-nav-link-wrap">
+
+      <span class="article-nav-title">
+        <i class="fa fa-hand-o-left" aria-hidden="true"></i>
+        
+          JMS
+        
+      </span>
+    </a>
+  
+  
+    <a href="/2018/06/01/nginx/" id="article-nav-older" class="article-nav-link-wrap">
+      <span class="article-nav-title"></span>
+      <i class="fa fa-hand-o-right" aria-hidden="true"></i>
+    </a>
+  
+</nav>
+
+
+
+    
+</section>
+        
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+<p>
+    <span id="busuanzi_container_site_uv" style='display:none'>
+        总访客数：<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span id="busuanzi_container_site_pv" style='display:none'>
+        总访问量：<span id="busuanzi_value_site_pv"></span>
+    </span>
+</p>
+
+
+      <p>
+        Powered by  <a href="http://hexo.io/" target="_blank">Hexo</a>
+        Theme <a href="//github.com/wongminho/hexo-theme-miho" target="_blank">MiHo</a>
+      &copy; 2018 Will Zhang<br>
+      </p>
+    </div>
+  </div>
+</footer>
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var mihoConfig = {
+      root: "",
+      animate: true,
+      isHome: false,
+      share: true,
+      reward: 1
+  }
+</script>
+<div class="sidebar">
+    <div id="sidebar-search" title="Search">
+        <i class="fa fa-search"></i>
+    </div>
+    <div id="sidebar-category" title="Categories">
+        <i class="fa fa-book"></i>
+    </div>
+    <div id="sidebar-tag" title="Tags">
+        <i class="fa fa-tags"></i>
+    </div>
+    <div id="sidebar-top">
+        <span class="sidebar-top-icon"><i class="fa fa-angle-up"></i></span>
+    </div>
+</div>
+<div class="sidebar-menu-box" id="sidebar-menu-box">
+    <div class="sidebar-menu-box-container">
+        <div id="sidebar-menu-box-categories">
+            <a class="category-link" href="/categories/前端/">前端</a><a class="category-link" href="/categories/后端/">后端</a><a class="category-link" href="/categories/工具/">工具</a><a class="category-link" href="/categories/资源/">资源</a>
+        </div>
+        <div id="sidebar-menu-box-tags">
+            <a href="/tags/css/" style="font-size: 20px;">css</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/spring/" style="font-size: 20px;">spring</a> <a href="/tags/后端/" style="font-size: 20px;">后端</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/资源/" style="font-size: 10px;">资源</a>
+        </div>
+    </div>
+    <a href="javascript:;" class="sidebar-menu-box-close">&times;</a>
+</div>
+<div class="mobile-header-menu-nav" id="mobile-header-menu-nav">
+    <div class="mobile-header-menu-container">
+        <span class="title">Menus</span>
+        <ul class="mobile-header-menu-navbar">
+            
+            <li>
+                <a  href="/">
+                    <i class="fa fa-home"></i><span>Home</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/archives">
+                    <i class="fa fa-archive"></i><span>Archives</span>
+                </a>
+            </li>
+            
+            <li>
+                <a  href="/about">
+                    <i class="fa fa-user"></i><span>About</span>
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+    <div class="mobile-header-tag-container">
+        <span class="title">Tags</span>
+        <div id="mobile-header-container-tags">
+            <a href="/tags/css/" style="font-size: 20px;">css</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/spring/" style="font-size: 20px;">spring</a> <a href="/tags/后端/" style="font-size: 20px;">后端</a> <a href="/tags/工具/" style="font-size: 10px;">工具</a> <a href="/tags/资源/" style="font-size: 10px;">资源</a>
+        </div>
+    </div>
+</div>
+<div class="search-wrap">
+    <span class="search-close">&times;</span>
+        <a href="javascript:;" class="header-icon waves-effect waves-circle waves-light" id="back">
+            <i class="icon icon-lg icon-chevron-left"></i>
+        </a>
+        <input class="search-field" placeholder="Search..." id="keywords">
+        <a id="search-submit" href="javascript:;">
+            <i class="fa fa-search"></i>
+        </a>
+    <div class="search-container" id="search-container">
+        <ul class="search-result" id="search-result">
+        </ul>
+    </div>
+</div>
+
+<div id="search-tpl">
+    <li class="search-result-item">
+        <a href="{url}" class="search-item-li">
+            <span class="search-item-li-title" title="{title}">{title}</span>
+        </a>
+    </li>
+</div>
+<script src="/js/search.js"></script>
+<script src="/js/main.js"></script>
+
+
+  <script src="//cdn.bootcss.com/particles.js/2.0.0/particles.min.js"></script>
+  <div id="particles"></div>
+  <script src="/js/particles.js"></script>
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.0/animate.min.css">
+  <script src="//cdn.bootcss.com/scrollReveal.js/3.0.5/scrollreveal.js"></script>
+  <script src="/js/animate.js"></script>
+
+
+  <script src="/js/pop-img.js"></script>
+  <script>
+     $(".article-entry p img").popImg();
+  </script>
+
+  </div>
+</body>
+</html>
